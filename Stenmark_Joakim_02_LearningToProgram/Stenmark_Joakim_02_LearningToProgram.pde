@@ -1,8 +1,8 @@
 
 float x = 0;
 float y = 0;
-float x2;
-float y2;
+float x2 = 320;
+float y2 = 240s;
 int lineAmount = 20;
 int lineCount = 0;
 
@@ -43,11 +43,11 @@ void draw()
 		//line(0, y2, x2, height);
 
 
-		x = x + width/lineAmount;
-		y = y + height/lineAmount;
-		x2 = x2 - width/lineAmount;
-		y2 = y2 - height/lineAmount;
-		line(0, y2, x2, height);
+		x = x + 320/lineAmount;
+		y = y + 240/lineAmount;
+		x2 = x2 - 320/lineAmount;
+		y2 = y2 - 240/lineAmount;
+		line(0, y2, x2, 240);
 
 		lineCount++;
 	}
