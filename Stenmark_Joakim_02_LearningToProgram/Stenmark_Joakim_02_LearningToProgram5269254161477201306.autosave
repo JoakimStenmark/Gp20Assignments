@@ -1,0 +1,68 @@
+
+float x = 0;
+float y = 0;
+float x2 = 320;
+float y2 = 240;
+int numberOfLines = 20;
+int lineCount = 0;
+
+PVector axis1;
+PVector axis2;
+
+ParabolicCurves instance;
+
+void setup()
+{
+	size(640, 480);
+	//background(255);
+	x2 = width;
+	y2 = height;
+	axis1 = new PVector(0, 480);
+	axis2 = new PVector(640, 480);
+  surface.
+	
+}
+
+void draw()
+{
+	background(255);
+	strokeWeight(2);
+  instance = new ParabolicCurves(0,0,0,480,20);
+	instance.makeCurve();
+
+	//Oldstuff();
+
+}
+
+void Oldstuff()
+{
+	// if (lineCount < numberOfLines)
+	// {
+	// 	if (lineCount % 3 == 2)
+	// 	{
+	// 		stroke(0);
+	// 	} 
+	// 	else
+	// 	{
+	// 		stroke(127);
+	// 	}
+
+	// 	line(0, y2, x2, height);
+
+
+	// 	x = x + 320/numberOfLines;
+	// 	y = y + 240/numberOfLines;
+	// 	x2 = x2 - 320/numberOfLines;
+	// 	y2 = y2 - 240/numberOfLines;
+	// 	line(0, y, x, 240);
+
+	// 	axis1.x = axis1.x + 320/numberOfLines;
+	// 	axis1.y = axis1.y + 240/numberOfLines;
+	// 	axis2.x = axis2.x - 320/numberOfLines;
+	// 	axis2.y = axis2.y - 240/numberOfLines;
+
+	// 	line(axis1.x, 0, width, axis1.y);
+
+	// 	lineCount++;
+	// }
+}

@@ -3,7 +3,8 @@ PVector circleVelocity;
 
 float speed = 2.0;
 
-float weight = 100;
+float weight = 75;
+
 void setup()
 {
 	size(512, 512);
@@ -13,8 +14,9 @@ void setup()
 
 void draw()
 {
-	background(255);
-	
+	background(196);
+	stroke(132, 81, 189);
+	strokeWeight(2);
 	if(mousePressed)
 	{
 		
@@ -32,7 +34,7 @@ void draw()
 	
 	CheckBounce();
 	ellipse(circlePos.x, circlePos.y, 50, 50);
-	saveFrame();
+	//saveFrame();
 }
 
 void CheckBounce()
