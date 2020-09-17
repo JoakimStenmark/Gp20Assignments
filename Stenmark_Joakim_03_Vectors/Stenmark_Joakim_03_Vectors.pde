@@ -31,7 +31,7 @@ void draw()
 	//make direction
 	circleVelocity.normalize();
 	circlePos.add(circleVelocity.mult(speed));
-	
+	speed *= 0.95;
 	CheckBounce();
 	ellipse(circlePos.x, circlePos.y, 50, 50);
 	//saveFrame();
