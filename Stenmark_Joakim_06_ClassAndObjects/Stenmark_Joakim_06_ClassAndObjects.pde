@@ -16,7 +16,7 @@ void setup()
 
 void draw() 
 {
-	background(123, 167, 198);	
+	ClearBackground();	
 
 	long currentTime = millis();
 	deltaTime = (currentTime - time) * 0.001f;
@@ -26,4 +26,11 @@ void draw()
 	ballManager.update();
 
 	time = currentTime;
+}
+
+void ClearBackground()
+{
+	fill(123, 167, 198, 100);
+	rect(0, 0, width, height);
+	fill(123, 167, 198);
 }

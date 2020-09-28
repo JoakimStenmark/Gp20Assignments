@@ -1,0 +1,10 @@
+class Zombie extends Character
+{
+  
+  Zombie(float x, float y)
+  {
+    super(x,y);
+    
+  }
+
+}

@@ -138,20 +138,19 @@ class Player extends GameObject
 	{
 		float maxDistance = ballSize + otherSize;
 
+		if(abs(position.x - otherPos.x) > maxDistance || abs(position.y - otherPos.y) > maxDistance)
+		{
+			return false;
+		}
 
-	  if(abs(position.x - otherPos.x) > maxDistance || abs(position.y - otherPos.y) > maxDistance)
-	  {
-	  	return false;
-	  }
+		else if(dist(position.x, position.y, otherPos.x, otherPos.y) > maxDistance)
+		{
+			return false;
+		}
 
-	  else if(dist(position.x, position.y, otherPos.x, otherPos.y) > maxDistance)
-	  {
-	  	return false;
-	  }
-
-	  else
-	  {
-	  	return true;
-	  }
+		else
+		{
+			return true;
+		}
 	}
 }
