@@ -2,15 +2,20 @@ class Cell
 {
 	PVector position;
 	PVector arrayPosition;
-	color livingColor  = color(0, 128, 0);
-	color deadColor = color(0, 0, 0);
+	color livingColor  = color(174, 177, 220);
+	color deadColor = color(0, 30, 75, 16);
 	color currentColor;
 	float size;
+
 	boolean alive = false;
+	float timeAlive = 0;
+	float timeCurrent = 0;
 
 	Cell[] neighbors;
 
+	float pulse;
 	int liveNeighbors = 0;
+
 	Cell(float x, float y, int totalCells, int arrayX, int arrayY)
 	{
 		arrayPosition = new PVector(arrayX, arrayY);
@@ -21,15 +26,49 @@ class Cell
 		{
 			alive = true;
 		}
+
 		UpdateColor();
 	}
 
 	void Draw()
 	{
+
 		UpdateColor();
-		stroke(255, 63);
-		fill(currentColor);
-		rect(position.x, position.y, size, size);
+		stroke(127, 63);
+		strokeWeight(1);
+		fill(currentColor, 50);
+		rect(position.x, position.y, size, size, 10);
+		if (alive) 
+		{
+			DrawPulse();				
+		}
+	}
+
+	void Update()
+	{
+		if (alive) 
+		{
+			timeAlive += millis() - timeCurrent;
+		}
+		else 
+		{
+			timeAlive = 0;	
+		}
+		timeCurrent = millis();
+	}
+
+	void DrawPulse()
+	{
+		noFill();
+		stroke(livingColor + color(0, 0, 25), 255 - timeAlive * 0.3);
+		if (pulse < size) 
+		{
+			pulse += size * 0.07;
+		}
+		else
+			pulse = 0;
+
+		ellipse(position.x + size * 0.5, position.y + size * 0.5, pulse, pulse);	
 	}
 
 	void UpdateColor()
@@ -48,9 +87,9 @@ class Cell
 	{
 		ArrayList<Cell> neighborsToAdd = new ArrayList<Cell>();
 
-		for (int x = 0; x < cellsPerRow; x++) 
+		for (int x = 0; x < cells.length; x++) 
 		{
-			for (int y = 0; y < cellsPerRow; y++) 
+			for (int y = 0; y < cells[0].length; y++) 
 			{
 				float distanceBetweenCells = PVector.dist(arrayPosition, cells[x][y].arrayPosition);
 				if (distanceBetweenCells > 0 && distanceBetweenCells <= 1.5) 
@@ -62,15 +101,6 @@ class Cell
 
 		neighbors = neighborsToAdd.toArray(neighbors); // fråga hur denna funkar
 	}
-
-	// void TurnNeighborsRed()
-	// {
-	// 	for (Cell c : neighbors) 
-	// 	{
-	// 		c.currentColor = color(128, 0, 0);
-	// 	}
-	// }
-
 
 	void CheckStateOfNeighbors()
 	{
