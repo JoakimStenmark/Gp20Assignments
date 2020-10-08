@@ -34,7 +34,13 @@ void setup()
 
 void draw() 
 {
-  timeBetweenCycles = 184;
+
+	if (pause)
+	{
+		return;
+	}
+  
+  	timeBetweenCycles = 184;
 
 	BasicDelayEffect();
 	
