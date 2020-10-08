@@ -6,7 +6,7 @@ class CharacterManager
 	//Zombie[] zombies;
 	Character[] characters;
 
-	int startingZombieAmount = 0;
+	int startingZombieAmount = 1;
 	
 	int amountOfZombies;
 	int amountOfHumans;
