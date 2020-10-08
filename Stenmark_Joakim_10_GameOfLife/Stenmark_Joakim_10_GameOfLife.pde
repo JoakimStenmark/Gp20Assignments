@@ -3,12 +3,20 @@ int totalCells = 0;
 Cell[][] cells;
 int randomNumber;
 
-float timeBetweenCycles = 250;
+float mouseTouchSize = 1.0f;
+
+float timeBetweenCycles;
 float timeCount;
 
-
-
-
+enum Actions
+{
+	CREATE_CELLS,
+	FIND_NEIGHBORS,
+	CHECK_STATEOFNEIGHBORS,
+	CHANGE_STATE,
+	FORCE_ALIVE,
+	UPDATE_ALL,
+}
 
 void setup() 
 {
@@ -21,56 +29,21 @@ void setup()
 
 	IterateAllCells(Actions.CREATE_CELLS);
 
-	// for (int x = 0; x < cells.length; x++) 
-	// {
-	// 	for (int y = 0; y < cells[0].length; y++) 
-	// 	{
-	// 		cells[x][y] = new Cell(x * width/cellsPerRow, y * height/cellsPerRow, cellsPerRow, x, y);
-	// 		totalCells++;
-	// 	}
-	// }
-
 	IterateAllCells(Actions.FIND_NEIGHBORS);
-
-
-	// for (int x = 0; x < cells.length; x++) 
-	// {
-	// 	for (int y = 0; y < cells[0].length; y++) 
-	// 	{
-	// 		cells[x][y].FindNeighbors();
-			
-	// 	}
-	// }
 }
 
 void draw() 
 {
+  timeBetweenCycles = 184;
 
 	BasicDelayEffect();
-	//background(0);
+	
 	if (millis() > timeCount) 
 	{
 
 		IterateAllCells(Actions.CHECK_STATEOFNEIGHBORS);
 
-		// for (int x = 0; x < cells.length; x++) 
-		// {
-		// 	for (int y = 0; y < cells[0].length; y++) 
-		// 	{
-		// 		cells[x][y].CheckStateOfNeighbors();
-		// 	}
-		// }	
-
 		IterateAllCells(Actions.CHANGE_STATE);
-
-
-		// for (int x = 0; x < cells.length; x++) 
-		// {
-		// 	for (int y = 0; y < cells[0].length; y++) 
-		// 	{
-		// 		cells[x][y].ChangeState();
-		// 	}
-		// }		
 
 		timeCount = millis() + timeBetweenCycles;		
 	}
@@ -78,43 +51,13 @@ void draw()
 	if (mousePressed) 
 	{		
 		IterateAllCells(Actions.FORCE_ALIVE);
-		// for (int x = 0; x < cells.length; x++) 
-		// {
-		// 	for (int y = 0; y < cells[0].length; y++) 
-		// 	{
-		// 		float distance = PVector.dist(new PVector(mouseX, mouseY), cells[x][y].position);
-		// 		if (distance > 0 && distance <= 30) 
-		// 		{
-		// 			cells[x][y].alive = true;
-		// 		}	
-		// 	}
-		// }	
 
 	}
-
-
+	
 	IterateAllCells(Actions.UPDATE_ALL);
-	// for (int x = 0; x < cells.length; x++) 
-	// {
-	// 	for (int y = 0; y < cells[0].length; y++) 
-	// 	{
-	// 		cells[x][y].Update();
-	// 		cells[x][y].Draw();
-	// 	}
-	// }
+	
+}
 
-	
-	
-}
-enum Actions
-{
-	CREATE_CELLS,
-	FIND_NEIGHBORS,
-	CHECK_STATEOFNEIGHBORS,
-	CHANGE_STATE,
-	FORCE_ALIVE,
-	UPDATE_ALL,
-}
 
 void IterateAllCells(Actions action)
 {
@@ -150,9 +93,9 @@ void IterateAllCells(Actions action)
 					break;	
 
 				case FORCE_ALIVE :
-
-					float distance = PVector.dist(new PVector(mouseX, mouseY), cells[x][y].position);
-					if (distance > 0 && distance <= 30) 
+					PVector mousePosition = new PVector(mouseX - cells[x][y].size * 0.5, mouseY - cells[x][y].size * 0.5);
+					float distance = mousePosition.dist(cells[x][y].position);
+					if (distance <= mouseTouchSize * cells[x][y].size * 0.5) 
 					{
 						cells[x][y].alive = true;
 					}	
@@ -172,12 +115,7 @@ void IterateAllCells(Actions action)
 
 void BasicDelayEffect()
 {
-	fill(0, 0, 0, 32);
+	fill(0, 0, 59, 25);
 	rect(0, 0, width, height);
-	fill(0, 13, 86);
-}
-
-void MakeAlive()
-{
-
+	fill(134, 232, 255);
 }

@@ -34,7 +34,7 @@ class Cell
 	{
 
 		UpdateColor();
-		stroke(127, 63);
+		stroke(40, 63);
 		strokeWeight(1);
 		fill(currentColor, 50);
 		rect(position.x, position.y, size, size, 10);
@@ -61,7 +61,7 @@ class Cell
 	{
 		noFill();
 		stroke(livingColor + color(0, 0, 25), 255 - timeAlive * 0.3);
-		if (pulse < size) 
+		if (pulse < size * 0.85) 
 		{
 			pulse += size * 0.07;
 		}
@@ -132,7 +132,5 @@ class Cell
 			}	
 		}
 	}
-
-
 
 }	
