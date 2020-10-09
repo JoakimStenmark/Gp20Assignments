@@ -1,4 +1,6 @@
-int cellsPerRow = 25;
+import processing.sound.*;
+
+int cellsPerRow = 12;
 int totalCells = 0;
 Cell[][] cells;
 int randomNumber;
@@ -7,6 +9,8 @@ float mouseTouchSize = 1.0f;
 
 float timeBetweenCycles;
 float timeCount;
+
+// SoundFile blip;
 
 enum Actions
 {
@@ -23,13 +27,14 @@ void setup()
 	background(0);
 	colorMode(HSB);
 
-	size(768,768);
+	size(1080,1080);
 	cells = new Cell[cellsPerRow][cellsPerRow];
-
 
 	IterateAllCells(Actions.CREATE_CELLS);
 
 	IterateAllCells(Actions.FIND_NEIGHBORS);
+
+
 }
 
 void draw() 
@@ -75,7 +80,7 @@ void IterateAllCells(Actions action)
 			{
 				case CREATE_CELLS :
 
-					cells[x][y] = new Cell(x * width/cellsPerRow, y * height/cellsPerRow, cellsPerRow, x, y);
+					cells[x][y] = new Cell(x * width/cellsPerRow, y * height/cellsPerRow, cellsPerRow, x, y, this);
 					totalCells++;
 					
 					break;	

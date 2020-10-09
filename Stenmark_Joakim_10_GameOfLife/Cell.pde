@@ -16,18 +16,26 @@ class Cell
 	float pulse;
 	int liveNeighbors = 0;
 
-	Cell(float x, float y, int totalCells, int arrayX, int arrayY)
+	boolean havePlayedSound = false;
+	SoundFile blip;
+
+	Cell(float x, float y, int totalCells, int arrayX, int arrayY, PApplet pApplet)
 	{
 		arrayPosition = new PVector(arrayX, arrayY);
 		neighbors = new Cell[0];
 		size = width/totalCells;
 		position = new PVector(x,y);
-		if ((int)random(0, 5) == 0) 
-		{
-			alive = true;
-		}
+		// if ((int)random(0, 5) == 0) 
+		// {
+		// 	alive = true;		
+		// }
 
+		blip = new SoundFile(pApplet, "Blip.wav");
+		blip.amp(arrayX * 0.05 + 0.3);
+		blip.rate(arrayY * 0.1 + 0.5);
+		
 		UpdateColor();
+
 	}
 
 	void Draw()
@@ -49,6 +57,15 @@ class Cell
 		if (alive) 
 		{
 			timeAlive += millis() - timeCurrent;
+			if (!havePlayedSound) 
+			{
+				if (blip.isPlaying()) 
+				{
+					blip.stop();	
+				}
+				blip.play();	
+				havePlayedSound = true;
+			}
 		}
 		else 
 		{
@@ -99,7 +116,7 @@ class Cell
 			}
 		}
 
-		neighbors = neighborsToAdd.toArray(neighbors); // fråga hur denna funkar
+		neighbors = neighborsToAdd.toArray(neighbors);
 	}
 
 	void CheckStateOfNeighbors()
@@ -122,6 +139,7 @@ class Cell
 			if (liveNeighbors < 2 || liveNeighbors > 3) 
 			{
 				alive = false;
+				havePlayedSound = false;
 			}
 		}
 		else 
