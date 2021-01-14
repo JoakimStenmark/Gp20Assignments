@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Timeline;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,19 +7,25 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     Rigidbody2D rb2d;
     Vector2 movement = new Vector2();
+    [SerializeField]
     bool grounded = false;
+    
     SpriteRenderer spriteRenderer;
+    Animator animator;
+    SignalReceiver signalReceiver;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
 
+        animator.SetFloat("Speed", Mathf.Abs(x));
         if (x < 0)
         {
             spriteRenderer.flipX = true;
@@ -31,15 +35,16 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = false;
         }
 
-        movement = new Vector2(x * speed, rb2d.velocity.y);
-
         if (Input.GetButtonDown("Jump") && grounded)
         {
-            //Debug.Log("jump");
-            //rb2d.AddForce (new Vector2(0, jumpForce));
+
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            animator.SetTrigger("Jump");
         }
 
+        movement = new Vector2(x * speed, rb2d.velocity.y);
+
+        animator.SetFloat("Fall", rb2d.velocity.y);
     }
 
     private void FixedUpdate()
@@ -52,7 +57,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             grounded = false;
-
+            animator.SetBool("Grounded", grounded);
         }
     }
 
@@ -61,7 +66,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             grounded = true;
-
+            animator.SetBool("Grounded", grounded);
         }
     }
 
@@ -70,7 +75,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             grounded = true;
-
+            animator.SetBool("Grounded", grounded);
         }
     }
 }
