@@ -1,0 +1,40 @@
+int frame = 0;
+
+
+void setup()
+{
+	size(640, 480);
+}
+
+void draw()
+{ 
+	int numberOfPoints = 53;
+	float angleSpacing = 2*PI/numberOfPoints;
+	float pointSpacingY = 10.00f;
+
+	PVector pos = new PVector(width * 0.5f, height * 0.5f);
+	color pointColor1 = color(199, 57, 57);
+	color pointColor2 = color(66, 203, 43);
+	float speed = 0.011f;
+	float rad = 90.04;
+
+	background(0);
+	strokeWeight(1); //<>//
+	stroke(255);
+	line(0, height * 0.5f, width, height * 0.5f);
+	strokeWeight(5); 
+	stroke(pointColor1);
+    point(pos.x, pos.y);
+	for (int i = 0; i < numberOfPoints; i++) 
+	{
+		point(pos.x + cos(i * angleSpacing) * rad, pos.y + sin(i * angleSpacing) * rad); 
+
+	}
+	//PointCircle(circlePos, numberOfPoints);
+
+}
+
+void PointCircle(PVector pos, int numberOfPoints)
+{
+
+}

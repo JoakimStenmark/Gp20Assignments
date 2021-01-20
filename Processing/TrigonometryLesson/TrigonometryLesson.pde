@@ -1,21 +1,38 @@
 int frame = 0;
-float multiplier = 0.002;
-int numberOfPoints = 320;
-
 void setup()
 {
-  size(640, 480);
-  stroke(255);
-  strokeWeight(5);
+	size(640, 480);
 }
 
 void draw()
 {
-  background(0);
-  line(0, height * 0.5f, width, height * 0.5f);
+	color pointColor1 = color(199, 57, 57);
+	color pointColor2 = color(66, 203, 43);
+	float speed = 0.011;
+	float depth = 120;
+	int numberOfPoints = 128;
+	float pointSpacingX = 10.25;
+	float pointSpacingY = 0.07;
 
-  //Draw animated point
-  point(100, 240 + sin(frame * 0.04) * 100);
+	background(0);
+	strokeWeight(1);
+	stroke(255);
+	line(0, height * 0.5f, width, height * 0.5f);
+	strokeWeight(5);
+	stroke(pointColor1);
+	for (int i = 0; i < numberOfPoints; i++)
+	{ 
 
-  frame++;
+		point(i * pointSpacingX, 240 + sin(i * pointSpacingY + frame * speed) * depth);
+	}
+
+	stroke(pointColor2);
+
+	for (int i = 0; i < numberOfPoints; i++) 
+	{
+
+		point(i * pointSpacingX, 240 + cos(i * pointSpacingY + frame * speed) * depth);
+	}
+
+	frame++;
 }
