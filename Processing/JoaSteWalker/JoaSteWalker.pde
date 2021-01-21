@@ -18,10 +18,12 @@ void setup()
 
 void draw()
 {
-	if (keyPressed) 
-	{
-		point(walkerPos.x, walkerPos.y);
-		walkerPos.add(walker.update());
+	point(walkerPos.x, walkerPos.y);
+	walkerPos.add(walker.update());
 		
-	}
+}
+
+void keyPressed()
+{
+
 }

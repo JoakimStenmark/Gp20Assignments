@@ -1,4 +1,4 @@
-class JoaSte implements WalkerInterface {
+class JoaSteOld implements WalkerInterface {
 
 	//Add your own variables here.
 	//Do not use processing variables like width or height
@@ -8,25 +8,12 @@ class JoaSte implements WalkerInterface {
 	int windowHeight = 0;
 
 	PVector[] directions;
-	int currentDirection = 0;
-
-	int[] weights = { 22, 24, 26, 28 };
-	int[][] weightedDie ={ {10, 25, 60, 100},{0,1,2,3} };
-	
 	boolean hitWall = false;
 
-	public JoaSte()
+	public JoaSteOld()
 	{
 		currentPosition = new PVector();
 		resetDirections();
-		int cumulative = 0;
-		for (int i = 0; i < weights.length; i++) 
-		{
-			cumulative += weights[i];
-			constrain(cumulative, 0, 100);
-			weightedDie[0][i] = cumulative; 
-		}
-		
 	}
 
 	void resetDirections()
@@ -37,7 +24,6 @@ class JoaSte implements WalkerInterface {
 		{
 			directions[i] = getDirection(i);	
 		}
-
 	}
 
 	PVector getDirection(int choise)
@@ -63,9 +49,10 @@ class JoaSte implements WalkerInterface {
 	PVector getStartPosition(int playAreaWidth, int playAreaHeight)
 	{
 		//Select a starting position or use a random one.
-		float x = (int) random(0, playAreaWidth);
-		float y = (int) random(0, playAreaHeight);
-
+		//float x = (int) random(0, playAreaWidth);
+		//float y = (int) random(0, playAreaHeight);
+		float x = (int) playAreaWidth/2;
+		float y = (int) playAreaHeight/2;
 
 
 		windowWidth = playAreaWidth;
@@ -84,6 +71,11 @@ class JoaSte implements WalkerInterface {
 
 //Any other outputs will kill the walker!
 	
+	int[] movementPlan = {8, 1, 3, 30, 30, 1, 7, 0};
+	int currentDirection = 0;
+	int currentPlan = 0;
+	int step = 0;
+
 	PVector update()
 	{
 
@@ -91,7 +83,12 @@ class JoaSte implements WalkerInterface {
 		//Make sure to only use the outputs listed below.
 		if (hitWall) 
 		{
-			weightedDie[1] = shiftDirectionalProbability(weightedDie[1]);
+			movementPlan = shiftArray(movementPlan);
+			// for (int i = 0; i < movementPlan.length; i++) 
+			// {
+			// 	println("new plan: "+ movementPlan[i]);
+			// }
+
 			hitWall = false;
 		}
 
@@ -102,13 +99,23 @@ class JoaSte implements WalkerInterface {
 
 		resetDirections();
 		preventOutBoundsMovement();
+		
 
-		currentDirection = getNewDirection();
+		while (step >= movementPlan[currentPlan]) 
+		{
+			currentPlan++;
+			currentPlan = currentPlan % movementPlan.length;
+			currentDirection++;
+			currentDirection = currentDirection % directions.length;
+			step = 0;
+		}
+		println("movementPlan[currentPlan]: "+movementPlan[currentPlan]);
+		step++;
 
 		currentPosition.add(directions[currentDirection]);
-		currentPosition = new PVector((int) currentPosition.x, (int) currentPosition.y);		
+		currentPosition = new PVector((int)currentPosition.x, (int)currentPosition.y);		
 		return directions[currentDirection];
-
+		//return getDirection(number);
 	}
 
 	boolean checkOutOfBounds()
@@ -163,27 +170,11 @@ class JoaSte implements WalkerInterface {
 
 	}
 
-	int getNewDirection()
-	{
-		int diceRoll = (int)random(0, 100);
-		int cumulative = 0;
-		for (int i = 0; i < weightedDie[0].length; i++) 
-		{
-			cumulative += weightedDie[0][i];
-
-			if (cumulative > diceRoll) 
-			{
-				return weightedDie[1][i];
-			}
-		}
-		return 0;
-	}
-
-	int[] shiftDirectionalProbability(int[] arrayToShift)
+	int[] shiftArray(int[] arrayToShift)
 	{
 		int i = 0;
 		int temp = arrayToShift[0];
-		for (i = 0; i < arrayToShift.length - 1; i++) 
+		for (i = 0; i < movementPlan.length - 1; i++) 
 		{
 			arrayToShift[i] = arrayToShift[i+1];
 		}
