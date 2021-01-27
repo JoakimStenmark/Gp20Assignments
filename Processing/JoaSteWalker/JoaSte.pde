@@ -137,28 +137,28 @@ class JoaSte implements WalkerInterface {
 		{
 			directions[0].mult(-1);
 			hitWall = true;
-			println("Left");
+
 		}
 
 		if (currentPosition.y + 1 > windowHeight) 
 		{
 			directions[1].mult(-1);
 			hitWall = true;
-			println("Down");
+
 		}
 
 		if (currentPosition.x + 1 > windowWidth) 
 		{
 			directions[2].mult(-1);
 			hitWall = true;
-			println("right");			
+		
 		}
 
 		if (currentPosition.y - 1 < 0) 
 		{
 			directions[3].mult(-1);
 			hitWall = true;
-			println("Up");
+
 		}
 
 	}
