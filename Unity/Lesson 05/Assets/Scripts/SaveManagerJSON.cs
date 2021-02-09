@@ -6,6 +6,10 @@ using TMPro;
 using System.IO;
 using System.Text;
 using System.Net;
+using Firebase;
+using Firebase.Auth;
+using Firebase.Database;
+using Firebase.Extensions;
 
 [Serializable]
 public class MultiplePlayers
@@ -29,9 +33,12 @@ public class SaveManagerJSON : MonoBehaviour
 
     void Start()
     {
-        LoadData();
+        //LoadData();
+        //LoadFromFirebase();
+
         //SaveData();
         //LoadNames();
+        Debug.Log(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
     }
 
     public void SaveData()
@@ -39,9 +46,9 @@ public class SaveManagerJSON : MonoBehaviour
 
         Debug.Log("saving");
 
-        var players = FindObjectsOfType<PlayerController>();
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
 
-        var multiplePlayers = new MultiplePlayers();
+        MultiplePlayers multiplePlayers = new MultiplePlayers();
         multiplePlayers.players = new PlayerInfo[players.Length];
 
         for (int i = 0; i < multiplePlayers.players.Length; i++)
@@ -56,14 +63,60 @@ public class SaveManagerJSON : MonoBehaviour
 
         //PlayerPrefs.SetString("JsonTesting", jsonString);
         SaveToFile("jockesjson", jsonString);
-        SaveOnline("jockesjson", jsonString);
+        //SaveOnline("jockesjson", jsonString);
+        SaveToFirebase(jsonString);
+    }
+
+    private void SaveToFirebase(string jsonString)
+    {
+        Debug.Log("Trying to write data");
+        FirebaseDatabase db = FirebaseDatabase.DefaultInstance;
+        var dataTask = db.RootReference.Child("users").Child(FirebaseAuth.DefaultInstance.CurrentUser.UserId).SetRawJsonValueAsync(jsonString);
+    }
+
+    public void LoadFromFirebase()
+    {
+        FirebaseDatabase db = FirebaseDatabase.DefaultInstance;
+        string userId = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        var dataTask = db.RootReference.Child("users").Child(userId).GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Exception != null)
+            {
+                Debug.LogError(task.Exception);
+            }
+
+            DataSnapshot snap = task.Result;
+
+            LoadState(snap.GetRawJsonValue());
+        });
+    }
+
+    private void LoadState(string jsonString)
+    {
+        MultiplePlayers multiplePlayers = JsonUtility.FromJson<MultiplePlayers>(jsonString);
+
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].name = multiplePlayers.players[i].Name;
+            players[i].transform.position = multiplePlayers.players[i].Position;
+
+        }
+
+        NameTagManager nameTagManager = GetComponent<NameTagManager>();
+
+        for (int i = 0; i < nameTagManager.nameTags.Length; i++)
+        {
+            nameTagManager.nameTags[i].GetComponent<TextMeshProUGUI>().text = multiplePlayers.players[i].Name;
+        }
     }
 
     public void SaveToFile(string fileName, string jsonString)
     {
         // Open a file in write mode. This will create the file if it's missing.
         // It is assumed that the path already exists.
-        using (var stream = File.OpenWrite(Application.persistentDataPath + "\\" + fileName))
+        using (FileStream stream = File.OpenWrite(Application.persistentDataPath + "\\" + fileName))
         {
             // Truncate the file if it exists (we want to overwrite the file)
             stream.SetLength(0);
@@ -87,17 +140,17 @@ public class SaveManagerJSON : MonoBehaviour
         //string jsonString = PlayerPrefs.GetString("JsonTesting");
         
         string jsonString2 = Load("jockesjson");
-        
-        string jsonString = LoadOnline("jockesjson");
 
-        if (jsonString != jsonString2)
-        {
-            Debug.LogError("json saves are not the same");
-        }
+        //string jsonString = LoadOnline("jockesjson");
 
-        var multiplePlayers = JsonUtility.FromJson<MultiplePlayers>(jsonString);
+        //if (jsonString != jsonString2)
+        //{
+        //    Debug.LogError("json saves are not the same");
+        //}
 
-        var players = FindObjectsOfType<PlayerController>();
+        MultiplePlayers multiplePlayers = JsonUtility.FromJson<MultiplePlayers>(jsonString2);
+
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
 
         for (int i = 0; i < players.Length; i++)
         {

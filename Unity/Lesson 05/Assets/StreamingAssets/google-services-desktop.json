@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "323987062731",
+    "firebase_url": "https://fir-unitytest-1be50-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fir-unitytest-1be50",
+    "storage_bucket": "fir-unitytest-1be50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323987062731:android:6cf559bbe93cc14ad1804e",
+        "android_client_info": {
+          "package_name": "com.Yrgo.JockesSaveData"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323987062731-kqtlols73t1t9ohpmjielhimcmu20gm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWyptRAJw9OHeGnEoDLGHdqq2zEt_Pde8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323987062731-kqtlols73t1t9ohpmjielhimcmu20gm8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

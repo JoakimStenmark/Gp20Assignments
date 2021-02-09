@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135a6ca4dcf41ec49a18f42e9df1c3d7, type: 3}
   m_Name: New Car
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 10
   model:
   - {fileID: 21300000, guid: ca50b8068957bc749a387558ccc7dea3, type: 3}
   - {fileID: 21300000, guid: 2a3f345cf80b7934e94f39ddab3e5cec, type: 3}
