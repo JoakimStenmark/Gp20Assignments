@@ -34,7 +34,7 @@ public class SaveManagerJSON : MonoBehaviour
     void Start()
     {
         //LoadData();
-        //LoadFromFirebase();
+        LoadFromFirebase();
 
         //SaveData();
         //LoadNames();
@@ -62,7 +62,7 @@ public class SaveManagerJSON : MonoBehaviour
         string jsonString = JsonUtility.ToJson(multiplePlayers);
 
         //PlayerPrefs.SetString("JsonTesting", jsonString);
-        SaveToFile("jockesjson", jsonString);
+        //SaveToFile("jockesjson", jsonString);
         //SaveOnline("jockesjson", jsonString);
         SaveToFirebase(jsonString);
     }
@@ -99,8 +99,17 @@ public class SaveManagerJSON : MonoBehaviour
 
         for (int i = 0; i < players.Length; i++)
         {
-            players[i].name = multiplePlayers.players[i].Name;
-            players[i].transform.position = multiplePlayers.players[i].Position;
+            if (multiplePlayers == null)
+            {
+                players[i].name = "Player " + i + 1;
+
+            }
+            else
+            {
+                players[i].name = multiplePlayers.players[i].Name;
+                players[i].transform.position = multiplePlayers.players[i].Position;
+
+            }
 
         }
 
@@ -108,7 +117,7 @@ public class SaveManagerJSON : MonoBehaviour
 
         for (int i = 0; i < nameTagManager.nameTags.Length; i++)
         {
-            nameTagManager.nameTags[i].GetComponent<TextMeshProUGUI>().text = multiplePlayers.players[i].Name;
+            nameTagManager.nameTags[i].GetComponent<TextMeshProUGUI>().text = players[i].name;
         }
     }
 

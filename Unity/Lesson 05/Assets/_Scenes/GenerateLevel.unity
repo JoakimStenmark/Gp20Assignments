@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 30436919}
   m_Layer: 0
   m_Name: Player1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &74326686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +857,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -872,6 +873,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a68382288ebecd4ca5e7d5c119fa75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 30436917}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1251,6 +1265,8 @@ GameObject:
   - component: {fileID: 1740002960}
   - component: {fileID: 1740002959}
   - component: {fileID: 1740002958}
+  - component: {fileID: 1740002963}
+  - component: {fileID: 1740002964}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -1291,51 +1307,9 @@ CompositeCollider2D:
   m_EdgeRadius: 0
   m_ColliderPaths:
   - m_Collider: {fileID: 1740002960}
-    m_ColliderPaths:
-    - - X: 5156239
-        Y: 50000099
-      - X: 5156246
-        Y: 50000100
-      - X: 4062504
-        Y: 50000100
-      - X: 4062511
-        Y: 50000099
-      - X: 4609375
-        Y: 49921977
-    - - X: 10000100
-        Y: 44296866
-      - X: 9453220
-        Y: 40078086
-      - X: 9453191
-        Y: 40078046
-      - X: 9297298
-        Y: 40000100
-      - X: 10000041
-        Y: 40000100
-      - X: 10000100
-        Y: 40000041
-    - - X: -41
-        Y: 40000100
-      - X: 546722
-        Y: 40000100
-      - X: -96
-        Y: 41249969
-      - X: -100
-        Y: 41249990
-      - X: -100
-        Y: 40000041
+    m_ColliderPaths: []
   m_CompositePaths:
-    m_Paths:
-    - - {x: 0.4609339, y: 4.9921985}
-      - {x: 0.5149676, y: 5.00001}
-      - {x: 0.4069015, y: 4.999917}
-    - - {x: 0.9999807, y: 4.000004}
-      - {x: 0.99991643, y: 4.4289646}
-      - {x: 0.94530654, y: 4.0077987}
-      - {x: 0.9299019, y: 4.00001}
-    - - {x: -0.00001, y: 4.000034}
-      - {x: 0.0546523, y: 4.0000553}
-      - {x: -0.00001, y: 4.1248007}
+    m_Paths: []
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &1740002959
@@ -1412,8 +1386,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2072960317
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -1449,87 +1423,101 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 0
-      e01: -1.2901469e+11
-      e02: -1.6131211e+29
-      e03: 0.0000000012693357
-      e10: NaN
-      e11: 4.5904e-41
-      e12: 6.99e-43
-      e13: 6.98e-43
-      e20: 1.04e-43
-      e21: -1.6131528e+29
-      e22: 1.2815919e+11
-      e23: 1.2815919e+11
-      e30: 0
-      e31: 6.99e-43
-      e32: 1.35e-43
-      e33: 1.35e-43
-  - m_RefCount: 0
-    m_Data:
       e00: 4e-45
-      e01: 2.140288e-12
+      e01: -5.0481364e-17
       e02: 0
-      e03: 1.2816535e+11
-      e10: NaN
-      e11: 7e-43
-      e12: 6.98e-43
-      e13: 1.35e-43
+      e03: 1.0682696e+9
+      e10: 1e-45
+      e11: 1.045e-42
+      e12: 1.044e-42
+      e13: 3.27e-43
       e20: NaN
       e21: 0
       e22: 0
-      e23: 0.000000001269421
+      e23: -0.0000000024117472
       e30: NaN
       e31: 0
       e32: 0
-      e33: 6.98e-43
-  - m_RefCount: 0
-    m_Data:
-      e00: 4e-45
-      e01: 2.140288e-12
-      e02: 0
-      e03: 1.2816535e+11
-      e10: NaN
-      e11: 7e-43
-      e12: 6.98e-43
-      e13: 1.35e-43
-      e20: NaN
-      e21: 0
-      e22: 0
-      e23: 0.0000000012692718
-      e30: NaN
-      e31: 0
-      e32: 0
-      e33: 6.98e-43
+      e33: 1.043e-42
   - m_RefCount: 0
     m_Data:
       e00: 0
-      e01: -1.2901469e+11
-      e02: -1.6131211e+29
-      e03: 0.0000000012692718
+      e01: -5.703668e+18
+      e02: -4.14426e-40
+      e03: -0.0000000028421727
       e10: NaN
-      e11: 4.5904e-41
-      e12: 6.99e-43
-      e13: 6.98e-43
+      e11: 4.5905e-41
+      e12: 1.045e-42
+      e13: 1.043e-42
       e20: 1.04e-43
-      e21: -1.6131528e+29
-      e22: 1.2815919e+11
-      e23: 1.2815919e+11
+      e21: -4.14661e-40
+      e22: 1.0682276e+9
+      e23: 1.0682276e+9
       e30: 0
-      e31: 6.99e-43
-      e32: 1.35e-43
-      e33: 1.35e-43
+      e31: 1.045e-42
+      e32: 3.27e-43
+      e33: 3.27e-43
+  - m_RefCount: 0
+    m_Data:
+      e00: 4e-45
+      e01: -5.0481364e-17
+      e02: 0
+      e03: 1.0682696e+9
+      e10: 3.27e-43
+      e11: 1.045e-42
+      e12: 1.044e-42
+      e13: 3.27e-43
+      e20: NaN
+      e21: 0
+      e22: 0
+      e23: -0.000000001795958
+      e30: NaN
+      e31: 0
+      e32: 0
+      e33: 1.043e-42
+  - m_RefCount: 0
+    m_Data:
+      e00: 0
+      e01: -5.703668e+18
+      e02: -4.14426e-40
+      e03: -0.0000000024117472
+      e10: NaN
+      e11: 4.5905e-41
+      e12: 1.045e-42
+      e13: 1.043e-42
+      e20: 1.04e-43
+      e21: -4.14661e-40
+      e22: 1.0682276e+9
+      e23: 1.0682276e+9
+      e30: 0
+      e31: 1.045e-42
+      e32: 3.27e-43
+      e33: 3.27e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: -1.6131211e+29, g: -1.6131211e+29, b: -1.6131211e+29, a: -1.6131211e+29}
-  m_TileObjectToInstantiateArray: []
+    m_Data: {r: -4.14426e-40, g: -4.14426e-40, b: -4.14426e-40, a: -4.14426e-40}
+  m_TileObjectToInstantiateArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -1, y: -5, z: 0}
-  m_Size: {x: 2, y: 10, z: 1}
+  m_Origin: {x: -8, y: -5, z: 0}
+  m_Size: {x: 16, y: 10, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -1549,6 +1537,39 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1740002963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740002956}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08137c474061f648888fadf3af0c8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 20
+  height: 10
+  startAreaSize: 2
+  ruleTile: {fileID: 11400000, guid: 08002d404144b40bf842342dda8fa3e4, type: 2}
+--- !u!114 &1740002964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740002956}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cccaeacbbdce93341b2e424ef33837ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 100
+  height: 75
+  startAreaSize: 3
+  ruleTile: {fileID: 11400000, guid: 08002d404144b40bf842342dda8fa3e4, type: 2}
+  steps: 1000
 --- !u!1 &2107434850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,6 +1732,10 @@ PrefabInstance:
       propertyPath: player2
       value: 
       objectReference: {fileID: 74326685}
+    - target: {fileID: 2031023171072582448, guid: b21a5e993c5c65c4391579a5f6a082a6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2031023171072582450, guid: b21a5e993c5c65c4391579a5f6a082a6, type: 3}
       propertyPath: m_Name
       value: Manager

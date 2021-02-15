@@ -50,7 +50,10 @@ public class FirebaseLogin : MonoBehaviour
 		if (regTask.Exception != null)
 			Debug.LogWarning(regTask.Exception);
 		else
+        {
 			Debug.Log("Registration Complete");
+			MenuManager.instance.OpenLoginPanel();
+        }
 	}
 
 	private IEnumerator FirebaseSignIn(string email, string password)
@@ -65,7 +68,8 @@ public class FirebaseLogin : MonoBehaviour
 		else
         {
 			Debug.Log("login completed");
-			GetComponent<SceneHandler>().LoadLevel(1);
+			MenuManager.instance.ToggleCharacterCreateWindow();
+			
         }
 
 		//StartCoroutine(DataTest(FirebaseAuth.DefaultInstance.CurrentUser.UserId, "TestWrite"));

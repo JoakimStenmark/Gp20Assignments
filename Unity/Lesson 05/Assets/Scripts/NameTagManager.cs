@@ -29,7 +29,7 @@ public class NameTagManager : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         
         for (int i = 0; i < cars.Length; i++)
