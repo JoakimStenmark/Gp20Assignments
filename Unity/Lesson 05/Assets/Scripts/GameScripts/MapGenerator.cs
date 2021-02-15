@@ -23,7 +23,7 @@ public class MapGenerator : MonoBehaviour
 
     public void Generate()
     {
-        ClearMap();
+        //ClearMap();
 
         startPos = new Vector3Int(width / 2, height / 2, 0);
 

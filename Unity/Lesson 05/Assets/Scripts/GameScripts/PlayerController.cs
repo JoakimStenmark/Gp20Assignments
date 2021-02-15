@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public bool mouseControl;
     Vector3 newPos;
     Vector3 movement;
+    Rigidbody2D rb2d;
 
     public UnityAction<float> OnJump;
 
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
         newPos = transform.position;
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = carSettings.model[Random.Range(0, 4)];
-
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -52,8 +53,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        MovePlayer(movement);
 
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer(movement);
+        
     }
 
     void MovePlayer(Vector3 movement)
@@ -63,7 +69,8 @@ public class PlayerController : MonoBehaviour
             transform.up = movement;
         }
 
-        transform.position += movement * carSettings.speed * Time.deltaTime;
+        Vector2 movement2d = rb2d.position + new Vector2(movement.x, movement.y) * carSettings.speed;
+        rb2d.MovePosition(movement2d); 
     }
 
 }

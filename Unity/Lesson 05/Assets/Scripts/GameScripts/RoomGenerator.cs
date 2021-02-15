@@ -16,19 +16,39 @@ public class RoomGenerator : MapGenerator
 
     internal override void SetupRandomMap()
     {
-        Vector3Int pathStartPoint = startPos;
         randomMap = new int[width, height];
-        
+
+
 
 
         for (int i = 0; i < amountOfRooms; i++)
         {
+            
+            
+            Vector3Int oldStartPoint = startPos;
+            int newRoomWidth = Random.Range(roomMinWidth, roomMaxWidth);
+            int newRoomHeight = Random.Range(roomMinHeight, roomMaxHeight);
+            
 
+            if (Random.Range(0, 2) > 0)
+            {
+                startPos.x += (Random.Range(0, 2) * 2 - 1) * Random.Range(newRoomWidth + 1, newRoomWidth * 2);
+                startPos = ClampVector(startPos, new Vector2Int(roomMaxWidth / 2, roomMaxHeight / 2));
 
+                GenerateRoom((oldStartPoint + startPos) / 2, Mathf.Abs(Mathf.Abs(startPos.x) - Mathf.Abs(oldStartPoint.x)), corridorWidth);
+            }
+            else
+            {
+                startPos.y += (Random.Range(0, 2) * 2 - 1) * Random.Range(newRoomHeight + 1, newRoomHeight * 2);
+                startPos = ClampVector(startPos, new Vector2Int(roomMaxWidth / 2, roomMaxHeight / 2));
 
+                GenerateRoom((oldStartPoint + startPos) / 2, corridorWidth, Mathf.Abs(Mathf.Abs(startPos.y) - Mathf.Abs(oldStartPoint.y)));
+            }
 
+            GenerateRoom(startPos, newRoomWidth, newRoomHeight);
 
         }
+        
     }
 
     private void GenerateRoom(Vector3Int startPos, int roomWidth, int roomHeight)

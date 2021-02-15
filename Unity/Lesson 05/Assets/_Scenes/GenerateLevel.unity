@@ -262,14 +262,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &74326685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1267,7 @@ GameObject:
   - component: {fileID: 1740002958}
   - component: {fileID: 1740002963}
   - component: {fileID: 1740002964}
+  - component: {fileID: 1740002965}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -1560,16 +1561,38 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740002956}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cccaeacbbdce93341b2e424ef33837ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 100
-  height: 75
-  startAreaSize: 3
+  width: 5000
+  height: 2200
+  startAreaSize: 2
   ruleTile: {fileID: 11400000, guid: 08002d404144b40bf842342dda8fa3e4, type: 2}
-  steps: 1000
+  steps: 2500
+--- !u!114 &1740002965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740002956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628e1d2ea1b6b3b40b9d2631615d590b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 5000
+  height: 2200
+  startAreaSize: 5
+  ruleTile: {fileID: 11400000, guid: 08002d404144b40bf842342dda8fa3e4, type: 2}
+  amountOfRooms: 15
+  roomMinHeight: 4
+  roomMaxHeight: 24
+  roomMinWidth: 8
+  roomMaxWidth: 36
+  corridorWidth: 2
 --- !u!1 &2107434850
 GameObject:
   m_ObjectHideFlags: 0

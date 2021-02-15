@@ -18,7 +18,7 @@ public class WalkerMapGenerator : MapGenerator
 
             float dice = Mathf.PerlinNoise(0.3f * i + Random.Range(0f,1f),0);
             int diceRoll = (wallsHit + Mathf.FloorToInt(dice * 5)) % 4;
-            Debug.Log(diceRoll);
+            //Debug.Log(diceRoll);
             switch (diceRoll)
             {
                 case 0:
@@ -35,7 +35,7 @@ public class WalkerMapGenerator : MapGenerator
                     break;
             }
 
-            if (CheckForOutBounds(walkerPos))
+            if (CheckForOutBounds(walkerPos) || i % 100 == 0)
             {
                 wallsHit++;
             }
