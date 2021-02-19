@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/_Scenes/OnlineMenu.unity
     guid: 2cf8213043bd96149854c3622103dc8b
   - enabled: 1
-    path: Assets/_Scenes/Firebase Save.unity
-    guid: 65ad39ca8f822eb479615c29a5d77a35
+    path: Assets/_Scenes/LuffarSchack.unity
+    guid: fe55f5d2b6602264aba20d6e3da00663
   m_configObjects: {}

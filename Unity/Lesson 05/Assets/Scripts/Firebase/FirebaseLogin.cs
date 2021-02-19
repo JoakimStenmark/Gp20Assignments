@@ -68,7 +68,7 @@ public class FirebaseLogin : MonoBehaviour
 		else
         {
 			Debug.Log("login completed");
-			MenuManager.instance.ToggleCharacterCreateWindow();
+			MenuManager.instance.ToggleLobbyPanel();
 			
         }
 

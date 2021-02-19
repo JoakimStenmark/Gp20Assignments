@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
             newPos = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
             movement = newPos - transform.position;
             movement.Normalize();
+            
 
             
         }

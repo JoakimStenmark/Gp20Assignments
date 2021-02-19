@@ -4,36 +4,83 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using TMPro;
-
+using System;
 
 public class PlayFieldManager : MonoBehaviour
 {
     Tilemap playField;
     public Tile playfieldTile;
-    public int size;
+    private int size;
     public GameObject numberTagPrefab;
-    
+    public static PlayFieldManager instance;
+
+    private void Awake()
+    {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+            Destroy(gameObject);
+    }
 
     void Start()
     {
         playField = GetComponent<Tilemap>();
-        int tileCount = 0;
-        for (int y = 0; y < size; y++)
+        
+        
+
+    }
+
+
+    public void SetupPlayField(int fieldSize)
+    {
+        
+        for (int y = 0; y < fieldSize; y++)
         {
-            for (int x = 0; x < size; x++)
+            for (int x = 0; x < fieldSize; x++)
             {
-                Vector3Int position = new Vector3Int(-y + size / 2, -x + size / 2, 0);
+                Vector3Int position = new Vector3Int(x, y, 0);
 
                 playField.SetTile(position, playfieldTile);
+                if (y == 0)
+                {
+                    CreateNumberTag(playField.CellToWorld(position), x, new Vector3(0.5f, -0.5f));
 
-                Transform parent = GameObject.Find("Canvas").transform;
-                GameObject numberTag = Instantiate(numberTagPrefab, parent);
-                Vector3 TagPosition = playField.CellToWorld(position);
-                numberTag.transform.position = Camera.main.WorldToScreenPoint(TagPosition);
-                numberTag.GetComponent<TextMeshProUGUI>().text = tileCount.ToString();
-                tileCount++;
+                }
+
+                if (x == 0)
+                {
+                    CreateNumberTag(playField.CellToWorld(position), y, new Vector3(-0.5f, 0.5f));
+
+                }
+
             }
+
         }
+    }
+
+
+
+    public Vector3Int calculateWorldToBoardPosition(Vector3 worldPosition)
+    {
+        return playField.WorldToCell(worldPosition);
+    }
+
+    void CreateNumberTag(Vector3 WorldPosition, int number, Vector3 offset)
+    {
+        Transform parent = GameObject.Find("Canvas").transform;
+        GameObject numberTag = Instantiate(numberTagPrefab, parent);
+        Vector3 TagPosition = WorldPosition + offset;
+        numberTag.transform.position = Camera.main.WorldToScreenPoint(TagPosition);
+        numberTag.GetComponent<TextMeshProUGUI>().text = number.ToString();
+
+    }
+
+    internal void ChangeTile(Vector3Int selectedTile, Tile newTileSprite)
+    {
+        playField.SetTile(selectedTile, newTileSprite);
     }
 
 

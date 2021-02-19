@@ -8,7 +8,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager instance;
 
     public CanvasGroup signUpGroup;
-    public CanvasGroup characterCreateGroup;
+    public CanvasGroup lobbyPanel;
 
     private void Awake()
     {
@@ -21,13 +21,11 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         signUpGroup.alpha = 0f;
-        characterCreateGroup.alpha = 0f;
-
+        lobbyPanel.alpha = 0f;
+        ToggleLobbyPanel();
     }
     public void OpenLoginPanel()
     {
-        //signUpPanel.SetActive(false);
-        //loginPanel.SetActive(true);
         signUpGroup.interactable = !signUpGroup.interactable;
         signUpGroup.alpha = 0f;
         signUpGroup.blocksRaycasts = false;
@@ -43,11 +41,11 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    public void ToggleCharacterCreateWindow()
+    public void ToggleLobbyPanel()
     {
-        characterCreateGroup.interactable = !characterCreateGroup.interactable;
-        characterCreateGroup.alpha = characterCreateGroup.alpha == 0f ? 1f : 0f;
-        characterCreateGroup.blocksRaycasts = !characterCreateGroup.blocksRaycasts;
+        lobbyPanel.interactable = !lobbyPanel.interactable;
+        lobbyPanel.alpha = lobbyPanel.alpha == 0f ? 1f : 0f;
+        lobbyPanel.blocksRaycasts = !lobbyPanel.blocksRaycasts;
 
 
 
@@ -56,6 +54,17 @@ public class MenuManager : MonoBehaviour
     public void GoToGame()
     {
         GetComponent<SceneHandler>().LoadLevel(1);
+    }
+
+    public void SaveName(string name)
+    {
+        
+
+
+        UserInfo newUser = new UserInfo();
+        newUser.name = name;
+
+        //FirebaseManager.Instance.SaveData
     }
 
 }
