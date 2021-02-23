@@ -1148,6 +1148,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 327555549}
   m_CullTransparentMesh: 0
+--- !u!1 &341801856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 341801858}
+  - component: {fileID: 341801857}
+  m_Layer: 0
+  m_Name: ActiveUser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &341801857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341801856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473f87fa377b1334b858fc8869eef9f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentUser:
+    name: 
+    activeGames: []
+    victories: 0
+  userID: 
+--- !u!4 &341801858
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341801856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &345843296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1571,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 556006242}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 967986189}
+        m_TargetAssemblyTypeName: FirebaseLobby, Assembly-CSharp
+        m_MethodName: CreateGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &556006242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2118,7 +2178,19 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 967986189}
+        m_TargetAssemblyTypeName: FirebaseLobby, Assembly-CSharp
+        m_MethodName: SaveName
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2522,7 +2594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &894380840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2585,19 +2657,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 894380842}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 967986187}
-        m_TargetAssemblyTypeName: SaveCharacter, Assembly-CSharp
-        m_MethodName: SaveName
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &894380842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2936,8 +2996,8 @@ GameObject:
   - component: {fileID: 967986185}
   - component: {fileID: 967986183}
   - component: {fileID: 967986186}
-  - component: {fileID: 967986187}
   - component: {fileID: 967986188}
+  - component: {fileID: 967986189}
   m_Layer: 0
   m_Name: managers
   m_TagString: Untagged
@@ -3001,19 +3061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 087b1f9902cdd5c438c29caf9816b1e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &967986187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 967986182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ece9fb6293a71346a39b8996ca7ac43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: {fileID: 654231617}
 --- !u!114 &967986188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3026,6 +3073,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797c28bc07537f84487e391b746607e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &967986189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967986182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e36b1d506b90bbd438edfcc382dffba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputGameName: {fileID: 1572329338}
+  buttonPrefab: {fileID: 8144570303084118505, guid: 87d724aecbf42b34ab07b2bce8bd6648, type: 3}
+  gamesListContent: {fileID: 1339389400}
 --- !u!1 &982269997
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,7 +3340,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1086985282}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 967986189}
+        m_TargetAssemblyTypeName: FirebaseLobby, Assembly-CSharp
+        m_MethodName: RefreshGamesList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1086985282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3803,6 +3877,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1367954972}
   m_CullTransparentMesh: 0
+--- !u!1 &1469908265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1469908267}
+  - component: {fileID: 1469908266}
+  m_Layer: 0
+  m_Name: ActiveGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1469908266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469908265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d277c899066bd3428fb5af3e0bdec33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData:
+    displayName: 
+    gameID: 
+    players: []
+    currentTurn: 0
+    winner: 0
+--- !u!4 &1469908267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469908265}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1515967690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3984,7 +4107,7 @@ GameObject:
   - component: {fileID: 1572329339}
   - component: {fileID: 1572329338}
   m_Layer: 5
-  m_Name: InputField NameSelect (1)
+  m_Name: InputField NameSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5035,7 +5158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1984452924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 967986183}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: CloseLobbyPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1984452924
 MonoBehaviour:
   m_ObjectHideFlags: 0

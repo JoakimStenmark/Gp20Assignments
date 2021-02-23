@@ -27,6 +27,8 @@ public class FirebaseLogin : MonoBehaviour
 			//Run this the first time, then run the "SignIn" coroutine instead.
 
 		});
+
+
 	}
 
 
@@ -68,10 +70,12 @@ public class FirebaseLogin : MonoBehaviour
 		else
         {
 			Debug.Log("login completed");
-			MenuManager.instance.ToggleLobbyPanel();
+			ActiveUser.instance.LoadUserData();
+			MenuManager.instance.OpenLobbyPanel();
 			
         }
 
+		
 		//StartCoroutine(DataTest(FirebaseAuth.DefaultInstance.CurrentUser.UserId, "TestWrite"));
 	}
 

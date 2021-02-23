@@ -40,8 +40,24 @@ public class FirebaseManager : MonoBehaviour
         onLoadedDelegate(jsonData);
     }
 
+    public IEnumerator LoadDataMultiple(string path, OnLoadedDelegate onLoadedDelegate)
+    {
+        var dataTask = db.RootReference.Child(path).GetValueAsync();
+        yield return new WaitUntil(() => dataTask.IsCompleted);
+        string jsonData = dataTask.Result.GetRawJsonValue();
+
+        if (dataTask.Exception != null)
+            Debug.LogWarning(dataTask.Exception);
+
+        foreach (var item in dataTask.Result.Children)
+        {
+            onLoadedDelegate(item.GetRawJsonValue());
+        }
+    }
+
     public IEnumerator SaveData(string path, string data, OnSaveDelegate onSaveDelegate = null)
     {
+        Debug.Log("Saving");
         var dataTask = db.RootReference.Child(path).SetRawJsonValueAsync(data);
         yield return new WaitUntil(() => dataTask.IsCompleted);
 

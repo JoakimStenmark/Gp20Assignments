@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour
     {
         signUpGroup.alpha = 0f;
         lobbyPanel.alpha = 0f;
-        ToggleLobbyPanel();
+        //OpenLobbyPanel();
     }
     public void OpenLoginPanel()
     {
@@ -41,14 +41,18 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    public void ToggleLobbyPanel()
+    public void OpenLobbyPanel()
     {
-        lobbyPanel.interactable = !lobbyPanel.interactable;
-        lobbyPanel.alpha = lobbyPanel.alpha == 0f ? 1f : 0f;
-        lobbyPanel.blocksRaycasts = !lobbyPanel.blocksRaycasts;
+        lobbyPanel.interactable = true;
+        lobbyPanel.alpha = lobbyPanel.alpha = 1;
+        lobbyPanel.blocksRaycasts = true;
 
-
-
+    }
+    public void CloseLobbyPanel()
+    {
+        lobbyPanel.interactable = false;
+        lobbyPanel.alpha = lobbyPanel.alpha = 0;
+        lobbyPanel.blocksRaycasts = false;
     }
 
     public void GoToGame()
@@ -56,15 +60,9 @@ public class MenuManager : MonoBehaviour
         GetComponent<SceneHandler>().LoadLevel(1);
     }
 
-    public void SaveName(string name)
+    public void ShowMenuFeedback()
     {
-        
-
-
-        UserInfo newUser = new UserInfo();
-        newUser.name = name;
-
-        //FirebaseManager.Instance.SaveData
+        //show if save was successful
     }
 
 }

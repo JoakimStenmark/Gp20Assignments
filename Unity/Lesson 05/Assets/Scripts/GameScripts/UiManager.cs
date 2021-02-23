@@ -40,4 +40,10 @@ public class UiManager : MonoBehaviour
         victoryPanel.blocksRaycasts = false;
         victoryPanel.interactable = false;
     }
+
+    public void GoBackToLobby()
+    {
+        //TODO check if there are problems being able to go back whenever
+        GetComponent<SceneHandler>().LoadLevel(0);
+    }
 }

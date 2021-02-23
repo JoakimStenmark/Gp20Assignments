@@ -8,7 +8,7 @@ public class GameData
 	public string displayName;
 	public string gameID;	
 	public List<PlayerInfo> players;
-	public Vector3Int boardState;
-	public Players currentTurn;
-	public Players winner;
+    public int[,] boardState;
+	public PlayerInfo currentTurn;
+	public PlayerInfo winner;
 }

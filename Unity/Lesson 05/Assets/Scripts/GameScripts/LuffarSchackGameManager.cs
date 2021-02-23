@@ -25,8 +25,10 @@ public class LuffarSchackGameManager : MonoBehaviour
     public int fieldSize;
     private Tile currentPlayerTile;
     public bool hasWon;
+
+    
    
-    string tempName = "jocke";
+    string tempName = "Waiting for opponent";
 
     private void Awake()
     {
@@ -42,18 +44,7 @@ public class LuffarSchackGameManager : MonoBehaviour
     void Start()
     {
         InitializeGame();
-
-        int tileCount = 0;
-        for (int x = 0; x < fieldSize; x++)
-        {
-            for (int y = 0; y < fieldSize; y++)
-            {
-
-
-                tileCount++;
-
-            }
-        }      
+     
     }
 
     private void InitializeGame()
@@ -63,6 +54,13 @@ public class LuffarSchackGameManager : MonoBehaviour
         hasWon = false;
         SetCurrentPlayer();
         UiManager.instance.HideVictoryPanel();
+        SetCurrentTurn();
+    }
+
+    private void SetCurrentTurn()
+    {
+
+
         BoardGameInputController.OnBoardClick += TileClick;
     }
 
@@ -83,6 +81,13 @@ public class LuffarSchackGameManager : MonoBehaviour
     private void SetCurrentPlayer()
     {
         //TODO hook up players to firebase accounts
+        if (ActiveGame.instance.gameData.currentTurn == null)
+        {
+            ActiveGame.instance.gameData.currentTurn = ActiveGame.instance.gameData.players[0];
+        }
+
+
+
         currentPlayer = Players.Player1;
         UiManager.instance.SetCurrentPlayer(tempName, Player1TileSprite.sprite);
         currentPlayerTile = Player1TileSprite;

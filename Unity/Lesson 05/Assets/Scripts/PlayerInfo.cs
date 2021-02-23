@@ -8,8 +8,9 @@ using UnityEngine;
 [Serializable]
 public class PlayerInfo
 {
-    public string Name;
+    public string name;
     public Vector3 Position;
-    public int number;
+    public string userID;
+    public Players nr;
 
 }

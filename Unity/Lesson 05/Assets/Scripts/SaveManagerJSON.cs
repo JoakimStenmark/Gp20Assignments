@@ -42,7 +42,7 @@ public class SaveManagerJSON : MonoBehaviour
         {
             multiplePlayers.players[i] = new PlayerInfo();
             multiplePlayers.players[i].Position = players[i].transform.position;
-            multiplePlayers.players[i].Name = players[i].name;
+            multiplePlayers.players[i].name = players[i].name;
 
         }
 
@@ -93,7 +93,7 @@ public class SaveManagerJSON : MonoBehaviour
             }
             else
             {
-                players[i].name = multiplePlayers.players[i].Name;
+                players[i].name = multiplePlayers.players[i].name;
                 players[i].transform.position = multiplePlayers.players[i].Position;
 
             }
@@ -150,7 +150,7 @@ public class SaveManagerJSON : MonoBehaviour
 
         for (int i = 0; i < players.Length; i++)
         {
-            players[i].name = multiplePlayers.players[i].Name;
+            players[i].name = multiplePlayers.players[i].name;
             players[i].transform.position = multiplePlayers.players[i].Position;
 
         }
@@ -159,7 +159,7 @@ public class SaveManagerJSON : MonoBehaviour
 
         for (int i = 0; i < nameTagManager.nameTags.Length; i++)
         {
-            nameTagManager.nameTags[i].GetComponent<TextMeshProUGUI>().text = multiplePlayers.players[i].Name;
+            nameTagManager.nameTags[i].GetComponent<TextMeshProUGUI>().text = multiplePlayers.players[i].name;
         }
 
     }

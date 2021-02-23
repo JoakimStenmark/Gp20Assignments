@@ -10,19 +10,40 @@ using Firebase.Extensions;
 
 public class SaveCharacter : MonoBehaviour
 {
-    public InputField playerName;
 
-    public void SaveName()
+    public InputField inputGameName;
+    public UserInfo user;
+
+    public void GetUserInfo()
     {
-        MultiplePlayers multiplePlayers = new MultiplePlayers();
-        multiplePlayers.players = new PlayerInfo[2];
-        multiplePlayers.players[0] = new PlayerInfo();
-        multiplePlayers.players[1] = new PlayerInfo();
-
-        multiplePlayers.players[0].Name = playerName.text;
-        string jsonString = JsonUtility.ToJson(multiplePlayers);
-        StartCoroutine(TrySaveToFirebase(jsonString));
+        //TODO load userInfo on login
     }
+
+    public void SaveName(string userName)
+    {
+
+        //TODO hitta ett sätt att ladda ned user först och sedan ändra/skapa namn
+        UserInfo newUser = new UserInfo();
+        newUser.name = userName;
+
+        string jsonString = JsonUtility.ToJson(newUser);
+        //StartCoroutine(TrySaveToFirebase(jsonString));
+        string path = "users/" + FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        StartCoroutine(FirebaseManager.Instance.SaveData(path, jsonString));
+
+    }
+
+    public void CreateGame()
+    {
+        if (inputGameName.text == "")
+        {
+            Debug.Log("ERROR");
+            return;
+        }
+        GameData game = new GameData();
+        game.displayName = inputGameName.text;
+    }
+
 
     private void SaveToFirebase(string jsonString)
     {
