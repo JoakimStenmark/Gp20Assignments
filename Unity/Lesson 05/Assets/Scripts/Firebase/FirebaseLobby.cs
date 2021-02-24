@@ -18,10 +18,10 @@ public class FirebaseLobby : MonoBehaviour
     public GameObject buttonPrefab;
     public Transform gamesListContent;
 
-
-    public void GetUserInfo()
+    string userID;
+    private void Start()
     {
-        //TODO load userInfo on login
+        userID = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
     }
 
     public void SaveName(string userName)
@@ -48,6 +48,8 @@ public class FirebaseLobby : MonoBehaviour
         game.players = new List<PlayerInfo>();
         game.displayName = inputGameName.text;
         AddPlayerToGame(game, Players.Player1);
+        //FOR Debug purposes
+        AddPlayerToGame(game, Players.Player2);
 
         string key = FirebaseDatabase.DefaultInstance.RootReference.Child("games/").Push().Key;
         game.gameID = key;
@@ -56,21 +58,20 @@ public class FirebaseLobby : MonoBehaviour
         string path = "games/" + key;
         StartCoroutine(FirebaseManager.Instance.SaveData(path, jsonString));
 
+        ActiveUser.instance.currentUser.activeGames.Add(key);
+        jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
+        StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
 
     }
 
-    private static void AddPlayerToGame(GameData game, Players playerNumber)
+
+    private void AddPlayerToGame(GameData game, Players playerNumber)
     {
         PlayerInfo userToPlayer = new PlayerInfo();
         userToPlayer.name = ActiveUser.instance.currentUser.name;
-        userToPlayer.userID = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        userToPlayer.userID = userID;
         userToPlayer.nr = playerNumber;
         game.players.Add(userToPlayer);
-    }
-
-    public void AddGameToUserList(string gamekey)
-    {
-        ActiveUser.instance.currentUser.activeGames.Add(gamekey);
     }
 
     public void RefreshGamesList()
@@ -79,10 +80,10 @@ public class FirebaseLobby : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
-        StartCoroutine(FirebaseManager.Instance.LoadDataMultiple("games/", AddGameToList));
+        StartCoroutine(FirebaseManager.Instance.LoadDataMultiple("games/", AddGameToLobbyList));
     }
 
-    public void AddGameToList(string jsonstring)
+    public void AddGameToLobbyList(string jsonstring)
     {
         GameData game = JsonUtility.FromJson<GameData>(jsonstring);
 
@@ -101,15 +102,19 @@ public class FirebaseLobby : MonoBehaviour
     public void JoinGame(GameData game)
     {
 
-        ActiveGame.instance.gameData = game;
-
-        UserInfo currentUser = ActiveUser.instance.currentUser;
-        if (!currentUser.activeGames.Contains(game.gameID))
+        if (!ActiveUser.instance.currentUser.activeGames.Contains(game.gameID))
         {
-            currentUser.activeGames.Add(game.gameID);
+            Debug.Log("Adding game to users list");
+
+            ActiveUser.instance.currentUser.activeGames.Add(game.gameID);
             AddPlayerToGame(game, Players.Player2);
+            string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
+            StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
         }
 
+
+        ActiveGame.instance.gameData = game;
+        //Kanske gör ActiveGame.instance.SaveGameData();
         MenuManager.instance.GoToGame();
 
 

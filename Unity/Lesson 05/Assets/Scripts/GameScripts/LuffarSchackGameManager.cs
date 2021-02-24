@@ -26,10 +26,6 @@ public class LuffarSchackGameManager : MonoBehaviour
     private Tile currentPlayerTile;
     public bool hasWon;
 
-    
-   
-    string tempName = "Waiting for opponent";
-
     private void Awake()
     {
 
@@ -43,54 +39,129 @@ public class LuffarSchackGameManager : MonoBehaviour
 
     void Start()
     {
+        
         InitializeGame();
-     
-    }
 
+        if (ActiveGame.instance.gameData.boardState != null)
+        {
+            ResumeGame();
+        }
+        else
+        {
+            StartNewGame();
+        }
+
+    }
     private void InitializeGame()
     {
+        Debug.Log("Initializing Game");
+        //Do allthings that dont need firebase data
         virtualPlayingField = new int[fieldSize, fieldSize];
-        PlayFieldManager.instance.SetupPlayField(fieldSize);
+        PlayFieldManager.instance.InitializePlayfield(fieldSize);
+        
+        //make sure endOfGame is off
         hasWon = false;
-        SetCurrentPlayer();
         UiManager.instance.HideVictoryPanel();
-        SetCurrentTurn();
+        
     }
 
-    private void SetCurrentTurn()
+    //TODO Maybe Only call this when both players are in the game list
+    private void StartNewGame()
     {
 
+        Debug.Log("Starting New Game");
 
-        BoardGameInputController.OnBoardClick += TileClick;
+        SetPlayerOrder();
+
+        ActiveGame.instance.gameData.boardState = virtualPlayingField;
+
+        ActiveGame.instance.SaveGameData();
+
     }
 
-    private void OnDisable()
-    {
-        BoardGameInputController.OnBoardClick -= TileClick;
 
-    }
-
-    private void Update()
+    private void ResumeGame()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        Debug.Log("Resuming from Online Data");
+        ActiveGame.instance.LoadGameData();
+
+        if (ActiveGame.instance.gameData.winner != null)
         {
-            InitializeGame();
+            hasWon = true;
+            UiManager.instance.ShowVictoryPanel();
+
+        }
+
+        virtualPlayingField = ActiveGame.instance.gameData.boardState;
+        PlayFieldManager.instance.UpdatePlayfield(virtualPlayingField, Player1TileSprite, Player2TileSprite);
+
+
+    }
+
+
+    private void SetPlayerOrder()
+    {
+        
+        if (ActiveGame.instance.gameData.currentTurn == 0)
+        {
+            //TODO randomize who starts
+            ActiveGame.instance.gameData.currentTurn = Players.Player1;
+        }
+
+        currentPlayer = ActiveGame.instance.gameData.currentTurn;
+        CheckPlayerControl();
+
+        SetCurrentTurnVisuals();
+    }
+
+    private void SetNextPlayersTurn()
+    {
+
+        if (currentPlayer == Players.Player1)
+        {
+            currentPlayer = Players.Player2;
+        }
+        else if (currentPlayer == Players.Player2)
+        {
+            currentPlayer = Players.Player1;
+        }
+
+        ActiveGame.instance.gameData.currentTurn = currentPlayer;
+        ActiveGame.instance.SaveGameData();
+        CheckPlayerControl();
+
+        SetCurrentTurnVisuals();
+
+    }
+
+    private void CheckPlayerControl()
+    {
+        if (ActiveGame.instance.GetUserIDFromPlayer(currentPlayer) == ActiveUser.instance.userID)
+        {
+            BoardGameInputController.OnBoardClick += TileClick;
+        }
+        else
+        {
+            BoardGameInputController.OnBoardClick -= TileClick;
+
         }
     }
 
-    private void SetCurrentPlayer()
+    private void SetCurrentTurnVisuals()
     {
-        //TODO hook up players to firebase accounts
-        if (ActiveGame.instance.gameData.currentTurn == null)
+        if (currentPlayer == Players.Player1)
         {
-            ActiveGame.instance.gameData.currentTurn = ActiveGame.instance.gameData.players[0];
+            currentPlayerTile = Player1TileSprite;
+            UiManager.instance.SetCurrentPlayer(ActiveGame.instance.gameData.players[0].name,
+                                                Player1TileSprite.sprite);
+
         }
-
-
-
-        currentPlayer = Players.Player1;
-        UiManager.instance.SetCurrentPlayer(tempName, Player1TileSprite.sprite);
-        currentPlayerTile = Player1TileSprite;
+        else if (currentPlayer == Players.Player2)
+        {
+            currentPlayerTile = Player2TileSprite;
+            UiManager.instance.SetCurrentPlayer(ActiveGame.instance.gameData.players[1].name,
+                                                Player2TileSprite.sprite);
+        }
     }
 
     private void TileClick(Vector3 worldPosition)
@@ -111,16 +182,11 @@ public class LuffarSchackGameManager : MonoBehaviour
                 return;
             }
 
-            SetNextPlayer();
+            SetNextPlayersTurn();
         }
        
     }
 
-    private void PlayerHasWon()
-    {
-        BoardGameInputController.OnBoardClick -= TileClick;
-        UiManager.instance.ShowVictoryPanel();
-    }
 
     private bool CheckWinConditions()
     {
@@ -232,23 +298,23 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         return false;
     }
-
-    private void SetNextPlayer()
+    private void PlayerHasWon()
     {
-
-        if (currentPlayer == Players.Player1)
-        {
-            currentPlayerTile = Player2TileSprite;
-            UiManager.instance.SetCurrentPlayer(tempName + "2", Player2TileSprite.sprite);
-            currentPlayer = Players.Player2;
-        }
-        else if (currentPlayer == Players.Player2)
-        {
-            currentPlayerTile = Player1TileSprite;
-            UiManager.instance.SetCurrentPlayer(tempName, Player1TileSprite.sprite);
-            currentPlayer = Players.Player1;
-        }
-
-        
+        BoardGameInputController.OnBoardClick -= TileClick;
+        UiManager.instance.ShowVictoryPanel();
     }
+    private void OnDisable()
+    {
+        BoardGameInputController.OnBoardClick -= TileClick;
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            InitializeGame();
+        }
+    }
+
 }

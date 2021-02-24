@@ -34,9 +34,9 @@ public class PlayFieldManager : MonoBehaviour
     }
 
 
-    public void SetupPlayField(int fieldSize)
+    public void InitializePlayfield(int fieldSize)
     {
-        
+        size = fieldSize;
         for (int y = 0; y < fieldSize; y++)
         {
             for (int x = 0; x < fieldSize; x++)
@@ -53,6 +53,30 @@ public class PlayFieldManager : MonoBehaviour
                 if (x == 0)
                 {
                     CreateNumberTag(playField.CellToWorld(position), y, new Vector3(-0.5f, 0.5f));
+
+                }
+
+            }
+
+        }
+    }
+
+    public void UpdatePlayfield(int[,] table, Tile player1TileSprite, Tile player2TileSprite)
+    {
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                Vector3Int position = new Vector3Int(x, y, 0);
+
+                if (table[x, y] == 1)
+                {
+                    playField.SetTile(position, player1TileSprite);
+
+                }
+                else if (table[x, y] == 2)
+                {
+                    playField.SetTile(position, player2TileSprite);
 
                 }
 

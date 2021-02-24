@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,10 @@ public class GameData
 	public string displayName;
 	public string gameID;	
 	public List<PlayerInfo> players;
-    public int[,] boardState;
-	public PlayerInfo currentTurn;
+	//CHANGE TO VECTOR2List. 2D array not supported :(
+	public int[,] boardState;
+	public Players currentTurn;
 	public PlayerInfo winner;
+
+
 }
