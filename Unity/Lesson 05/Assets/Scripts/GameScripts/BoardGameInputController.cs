@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 
 public class BoardGameInputController : MonoBehaviour 
 {
-    public static Action<Vector3> OnBoardClick; 
-    
+    public static Action<Vector3> OnBoardClick;
+    private Touch theTouch;
     //Felt Slow
     //public void OnPointerClick(PointerEventData eventData)
     //{
@@ -22,18 +22,33 @@ public class BoardGameInputController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.down);
-            
-            if (hit.collider != null)
+            CheckInput(Input.mousePosition);
+
+        }
+
+        if (Input.touchCount > 0)
+        {
+            theTouch = Input.GetTouch(0);
+            if (theTouch.phase == TouchPhase.Began)
             {
-                //Debug.Log("hit something");
-                if (hit.collider.CompareTag("Tile"))
+                CheckInput(theTouch.position);
+            }
+        }
+
+    }
+
+    private static void CheckInput(Vector3 position)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(position), Vector2.down);
+
+        if (hit.collider != null)
+        {
+            //Debug.Log("hit something");
+            if (hit.collider.CompareTag("Tile"))
+            {
+                if (OnBoardClick != null)
                 {
-                    if (OnBoardClick != null)
-                    {
-                        OnBoardClick(hit.point);
-                        
-                    }
+                    OnBoardClick(hit.point);
 
                 }
 

@@ -42,13 +42,13 @@ public class LuffarSchackGameManager : MonoBehaviour
         
         InitializeGame();
 
-        if (ActiveGame.instance.gameData.boardState != null)
+        if (ActiveGame.instance.gameData.currentTurn == 0)
         {
-            ResumeGame();
+            StartNewGame();
         }
         else
         {
-            StartNewGame();
+            ResumeGame();
         }
 
     }
@@ -68,51 +68,76 @@ public class LuffarSchackGameManager : MonoBehaviour
     //TODO Maybe Only call this when both players are in the game list
     private void StartNewGame()
     {
-
         Debug.Log("Starting New Game");
 
         SetPlayerOrder();
 
         ActiveGame.instance.gameData.boardState = virtualPlayingField;
+        ActiveGame.instance.SetBoardPositions(virtualPlayingField);
 
         ActiveGame.instance.SaveGameData();
 
     }
 
-
     private void ResumeGame()
     {
         Debug.Log("Resuming from Online Data");
-        ActiveGame.instance.LoadGameData();
+        //ActiveGame.instance.LoadGameData();
 
-        if (ActiveGame.instance.gameData.winner != null)
+        if (ActiveGame.instance.gameData.winner.nr != 0)
         {
             hasWon = true;
             UiManager.instance.ShowVictoryPanel();
 
         }
 
-        virtualPlayingField = ActiveGame.instance.gameData.boardState;
+        virtualPlayingField = ActiveGame.instance.GetVirtualPlayField(fieldSize);
         PlayFieldManager.instance.UpdatePlayfield(virtualPlayingField, Player1TileSprite, Player2TileSprite);
+        SetPlayerOrder();
 
+    }
+
+    public void UpdateGame(GameData newData)
+    {
+        Debug.Log("Updating from Online Data");      
+
+        if (newData.winner.nr != 0)
+        {
+            hasWon = true;
+            UiManager.instance.ShowVictoryPanel();
+
+        }
+        ActiveGame.instance.gameData = newData;
+        virtualPlayingField = ActiveGame.instance.GetVirtualPlayField(fieldSize);
+        PlayFieldManager.instance.UpdatePlayfield(virtualPlayingField, Player1TileSprite, Player2TileSprite);
+        SetPlayerOrder();
 
     }
 
 
+
+
     private void SetPlayerOrder()
-    {
-        
+    {      
         if (ActiveGame.instance.gameData.currentTurn == 0)
         {
             //TODO randomize who starts
             ActiveGame.instance.gameData.currentTurn = Players.Player1;
         }
-
         currentPlayer = ActiveGame.instance.gameData.currentTurn;
         CheckPlayerControl();
 
         SetCurrentTurnVisuals();
     }
+
+    public void SetPlayerOrder(GameData newData)
+    {
+        currentPlayer = newData.currentTurn;
+        CheckPlayerControl();
+
+        SetCurrentTurnVisuals();
+    }
+
 
     private void SetNextPlayersTurn()
     {
@@ -171,6 +196,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         if (virtualPlayingField[selectedTile.x, selectedTile.y] == 0)
         {
             virtualPlayingField[selectedTile.x, selectedTile.y] = (int)currentPlayer;
+            ActiveGame.instance.SetBoardPositions(virtualPlayingField);
             PlayFieldManager.instance.ChangeTile(selectedTile, currentPlayerTile);
 
             hasWon = CheckWinConditions();
@@ -302,6 +328,9 @@ public class LuffarSchackGameManager : MonoBehaviour
     {
         BoardGameInputController.OnBoardClick -= TileClick;
         UiManager.instance.ShowVictoryPanel();
+        ActiveUser.instance.AddVictory();
+        ActiveGame.instance.SetWinner();
+
     }
     private void OnDisable()
     {

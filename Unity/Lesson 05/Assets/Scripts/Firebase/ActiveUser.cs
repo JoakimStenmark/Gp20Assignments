@@ -49,6 +49,14 @@ public class ActiveUser : MonoBehaviour
 
     }
 
+    public void AddVictory()
+    {
+        currentUser.victories++;
+        string jsonString = JsonUtility.ToJson(currentUser);
+        StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
+
+    }
+
     
 
 }

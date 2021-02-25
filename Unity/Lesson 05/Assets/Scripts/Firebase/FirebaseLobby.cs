@@ -22,6 +22,7 @@ public class FirebaseLobby : MonoBehaviour
     private void Start()
     {
         userID = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+
     }
 
     public void SaveName(string userName)
@@ -49,7 +50,7 @@ public class FirebaseLobby : MonoBehaviour
         game.displayName = inputGameName.text;
         AddPlayerToGame(game, Players.Player1);
         //FOR Debug purposes
-        AddPlayerToGame(game, Players.Player2);
+        //AddPlayerToGame(game, Players.Player2);
 
         string key = FirebaseDatabase.DefaultInstance.RootReference.Child("games/").Push().Key;
         game.gameID = key;
@@ -106,8 +107,8 @@ public class FirebaseLobby : MonoBehaviour
         {
             Debug.Log("Adding game to users list");
 
-            ActiveUser.instance.currentUser.activeGames.Add(game.gameID);
             AddPlayerToGame(game, Players.Player2);
+            ActiveUser.instance.currentUser.activeGames.Add(game.gameID);
             string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
             StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
         }
