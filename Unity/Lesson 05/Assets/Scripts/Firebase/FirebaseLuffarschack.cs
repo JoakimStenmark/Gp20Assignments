@@ -7,7 +7,8 @@ public class FirebaseLuffarschack : MonoBehaviour
 {
 
     string valuePath;
-
+    
+    
 
     //The thing we want to listen to, when it changes, HandleValueChanged will run.
     public void Subscribe()

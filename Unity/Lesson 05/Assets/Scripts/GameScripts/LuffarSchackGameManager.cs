@@ -28,7 +28,7 @@ public class LuffarSchackGameManager : MonoBehaviour
 
     private void Awake()
     {
-
+        Debug.Log("did we break?");
         if (instance == null)
         {
             instance = this;
@@ -72,10 +72,10 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         SetPlayerOrder();
 
-        ActiveGame.instance.gameData.boardState = virtualPlayingField;
         ActiveGame.instance.SetBoardPositions(virtualPlayingField);
 
         ActiveGame.instance.SaveGameData();
+
 
     }
 
@@ -113,9 +113,6 @@ public class LuffarSchackGameManager : MonoBehaviour
         SetPlayerOrder();
 
     }
-
-
-
 
     private void SetPlayerOrder()
     {      

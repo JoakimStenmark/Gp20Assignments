@@ -120,6 +120,11 @@ public class FirebaseLobby : MonoBehaviour
 
 
         ActiveGame.instance.gameData = game;
+        Debug.Log(ActiveGame.instance.gameData.players[0].name);
+        Debug.Log(ActiveGame.instance.gameData.players[1].name);
+
+
+
         //Kanske gör ActiveGame.instance.SaveGameData();
         MenuManager.instance.GoToGame();
 
