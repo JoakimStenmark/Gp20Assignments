@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MenuManager : MonoBehaviour
 
     public CanvasGroup signUpGroup;
     public CanvasGroup lobbyPanel;
+
+    public TextMeshProUGUI nameText;
 
     private void Awake()
     {
@@ -46,7 +49,7 @@ public class MenuManager : MonoBehaviour
         lobbyPanel.interactable = true;
         lobbyPanel.alpha = lobbyPanel.alpha = 1;
         lobbyPanel.blocksRaycasts = true;
-
+        UpdateUserName();
     }
     public void CloseLobbyPanel()
     {
@@ -64,5 +67,11 @@ public class MenuManager : MonoBehaviour
     {
         //show if save was successful
     }
+
+    public void UpdateUserName()
+    {
+        nameText.text = "Current Name:\n" + ActiveUser.instance.currentUser.name;
+    }
+
 
 }

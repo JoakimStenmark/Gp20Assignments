@@ -37,16 +37,8 @@ public class ActiveUser : MonoBehaviour
             currentUser = JsonUtility.FromJson<UserInfo>(jsonData);
         }
 
+        MenuManager.instance.UpdateUserName();
         
-    }
-
-    public void SaveName(string newName)
-    {
-        currentUser.name = newName;
-        string jsonString = JsonUtility.ToJson(currentUser);
-        StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
-
-
     }
 
     public void AddVictory()

@@ -62,7 +62,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         //make sure endOfGame is off
         hasWon = false;
         UiManager.instance.HideVictoryPanel();
-        
+        GetComponent<FirebaseLuffarschack>().Subscribe();
     }
 
     //TODO Maybe Only call this when both players are in the game list

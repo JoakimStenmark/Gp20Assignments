@@ -6,16 +6,17 @@ using UnityEngine;
 public class FirebaseLuffarschack : MonoBehaviour
 {
 
-    public string valuePath;
+    string valuePath;
 
-    private void Start()
-    {
 
-        valuePath = "games/" + ActiveGame.instance.gameData.gameID + "currentTurn";
-
-    }
     //The thing we want to listen to, when it changes, HandleValueChanged will run.
-
+    public void Subscribe()
+    {
+        valuePath = "games/" + ActiveGame.instance.gameData.gameID;
+        Debug.Log("subscribing to value: " + valuePath);
+        
+        FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged += HandleValueChanged;
+    }
     public void Subscribe(string path)
     {
         Debug.Log("subscribing to value: " + path);
@@ -35,11 +36,11 @@ public class FirebaseLuffarschack : MonoBehaviour
         //update our game info
         GameData updatedGame = JsonUtility.FromJson<GameData>(args.Snapshot.GetRawJsonValue());
         //run the game with the new information
-        LuffarSchackGameManager.instance.SetPlayerOrder(updatedGame);
+        LuffarSchackGameManager.instance.UpdateGame(updatedGame);
     }
 
     private void OnDisable()
     {       
-        FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged += HandleValueChanged;
+        FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
     }
 }

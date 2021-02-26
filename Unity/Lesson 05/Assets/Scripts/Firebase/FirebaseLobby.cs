@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase;
-using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
 using TMPro;
@@ -13,26 +12,31 @@ public class FirebaseLobby : MonoBehaviour
 {
 
     public InputField inputGameName;
+    public TextMeshProUGUI statusText;
     
+
 
     public GameObject buttonPrefab;
     public Transform gamesListContent;
 
     string userID;
-    private void Start()
-    {
-        userID = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-
-    }
 
     public void SaveName(string userName)
     {
-        ActiveUser.instance.SaveName(userName);
+        userID = ActiveUser.instance.userID;
+
+        ActiveUser.instance.currentUser.name = userName;
+        string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
+        StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID,
+                                                         jsonString,
+                                                         MenuManager.instance.UpdateUserName));
 
     }
 
     public void CreateGame()
     {
+        userID = ActiveUser.instance.userID;
+        
         if (inputGameName.text == "")
         {
             Debug.Log("Need name For game");
@@ -97,6 +101,7 @@ public class FirebaseLobby : MonoBehaviour
         {
             texts[1].text += player.name + ", ";
         }
+
         newButton.onClick.AddListener(() => JoinGame(game));
     }
 
@@ -110,7 +115,7 @@ public class FirebaseLobby : MonoBehaviour
             AddPlayerToGame(game, Players.Player2);
             ActiveUser.instance.currentUser.activeGames.Add(game.gameID);
             string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
-            StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
+            StartCoroutine(FirebaseManager.Instance.SaveData("users/" + ActiveUser.instance.userID, jsonString));
         }
 
 

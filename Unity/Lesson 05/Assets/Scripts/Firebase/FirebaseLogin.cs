@@ -6,6 +6,7 @@ using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
+using TMPro;
 
 public class FirebaseLogin : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class FirebaseLogin : MonoBehaviour
 	public InputField signUpPasswordInput;
     public InputField emailInput;
     public InputField passwordInput;
+
+	//public Button loginButton;
+
+	public TextMeshProUGUI statusText;
 
 
 	private void Start()
@@ -27,7 +32,6 @@ public class FirebaseLogin : MonoBehaviour
 			//Run this the first time, then run the "SignIn" coroutine instead.
 
 		});
-
 
 	}
 
@@ -47,6 +51,7 @@ public class FirebaseLogin : MonoBehaviour
 		Debug.Log("Starting Registration");
         FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 		var regTask = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+
 		yield return new WaitUntil(() => regTask.IsCompleted);
 
 		if (regTask.Exception != null)
@@ -61,7 +66,9 @@ public class FirebaseLogin : MonoBehaviour
 	private IEnumerator FirebaseSignIn(string email, string password)
 	{
 		Debug.Log("Attempting to log in");
-        FirebaseAuth auth = FirebaseAuth.DefaultInstance;
+		statusText.text = "Attempting to log in";
+
+		FirebaseAuth auth = FirebaseAuth.DefaultInstance;
 		var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
 		yield return new WaitUntil(() => loginTask.IsCompleted);
 
@@ -70,6 +77,8 @@ public class FirebaseLogin : MonoBehaviour
 		else
         {
 			Debug.Log("login completed");
+			statusText.text = "";
+
 			ActiveUser.instance.LoadUserData();
 			MenuManager.instance.OpenLobbyPanel();
 			
