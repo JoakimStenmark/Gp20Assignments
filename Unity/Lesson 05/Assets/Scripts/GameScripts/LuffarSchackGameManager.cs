@@ -28,7 +28,7 @@ public class LuffarSchackGameManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("did we break?");
+
         if (instance == null)
         {
             instance = this;
@@ -48,7 +48,8 @@ public class LuffarSchackGameManager : MonoBehaviour
         }
         else
         {
-            ResumeGame();
+            GetComponent<FirebaseLuffarschack>().Subscribe();
+            //ResumeGame();
         }
 
     }
@@ -62,7 +63,6 @@ public class LuffarSchackGameManager : MonoBehaviour
         //make sure endOfGame is off
         hasWon = false;
         UiManager.instance.HideVictoryPanel();
-        GetComponent<FirebaseLuffarschack>().Subscribe();
     }
 
     //TODO Maybe Only call this when both players are in the game list
@@ -76,6 +76,7 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         ActiveGame.instance.SaveGameData();
 
+        GetComponent<FirebaseLuffarschack>().Subscribe();
 
     }
 
@@ -87,7 +88,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         if (ActiveGame.instance.gameData.winner.nr != 0)
         {
             hasWon = true;
-            UiManager.instance.ShowVictoryPanel();
+            PlayerHasWon(ActiveGame.instance.gameData.winner.nr);
 
         }
 
@@ -104,7 +105,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         if (newData.winner.nr != 0)
         {
             hasWon = true;
-            UiManager.instance.ShowVictoryPanel();
+            PlayerHasWon(newData.winner.nr);
 
         }
         ActiveGame.instance.gameData = newData;
@@ -158,9 +159,12 @@ public class LuffarSchackGameManager : MonoBehaviour
 
     private void CheckPlayerControl()
     {
-        if (ActiveGame.instance.GetUserIDFromPlayer(currentPlayer) == ActiveUser.instance.userID)
+        string userToCheck = ActiveGame.instance.GetUserIDFromPlayer(currentPlayer);
+        Debug.Log(userToCheck + " is in control");
+        if (userToCheck == ActiveUser.instance.userID)
         {
             BoardGameInputController.OnBoardClick += TileClick;
+
         }
         else
         {
@@ -181,8 +185,17 @@ public class LuffarSchackGameManager : MonoBehaviour
         else if (currentPlayer == Players.Player2)
         {
             currentPlayerTile = Player2TileSprite;
-            UiManager.instance.SetCurrentPlayer(ActiveGame.instance.gameData.players[1].name,
-                                                Player2TileSprite.sprite);
+            if (ActiveGame.instance.gameData.players.Count > 1)
+            {
+                UiManager.instance.SetCurrentPlayer(ActiveGame.instance.gameData.players[1].name,
+                                                    Player2TileSprite.sprite);
+
+            }
+            else
+            {
+                UiManager.instance.SetCurrentPlayer("Waiting for player to join",
+                                                    Player2TileSprite.sprite);
+            }
         }
     }
 
@@ -201,7 +214,7 @@ public class LuffarSchackGameManager : MonoBehaviour
             if (hasWon)
             {
                 Debug.Log("Won");
-                PlayerHasWon();
+                PlayerHasWon(currentPlayer);
                 return;
             }
 
@@ -321,16 +334,23 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         return false;
     }
-    private void PlayerHasWon()
+    private void PlayerHasWon(Players winner)
     {
         BoardGameInputController.OnBoardClick -= TileClick;
         UiManager.instance.ShowVictoryPanel();
-        ActiveUser.instance.AddVictory();
-        ActiveGame.instance.SetWinner();
+        if (ActiveGame.instance.GetUserIDFromPlayer(winner) == ActiveUser.instance.userID)
+        {
+            ActiveUser.instance.AddVictory();
+            ActiveGame.instance.SetWinner();
+            
+            
+        }
+        ActiveUser.instance.RemoveGameFromList(ActiveGame.instance.gameData.gameID);
 
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
+
         BoardGameInputController.OnBoardClick -= TileClick;
 
     }

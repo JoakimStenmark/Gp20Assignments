@@ -13,8 +13,6 @@ public class FirebaseLobby : MonoBehaviour
 
     public InputField inputGameName;
     public TextMeshProUGUI statusText;
-    
-
 
     public GameObject buttonPrefab;
     public Transform gamesListContent;
@@ -74,7 +72,7 @@ public class FirebaseLobby : MonoBehaviour
     {
         PlayerInfo userToPlayer = new PlayerInfo();
         userToPlayer.name = ActiveUser.instance.currentUser.name;
-        userToPlayer.userID = userID;
+        userToPlayer.userID = ActiveUser.instance.userID;
         userToPlayer.nr = playerNumber;
         game.players.Add(userToPlayer);
     }
@@ -92,6 +90,15 @@ public class FirebaseLobby : MonoBehaviour
     {
         GameData game = JsonUtility.FromJson<GameData>(jsonstring);
 
+        if (game.players.Count > 1)
+        {
+            if (!ActiveUser.instance.currentUser.activeGames.Contains(game.gameID))
+            {
+                return;
+
+            }
+        }
+
         Button newButton = Instantiate(buttonPrefab, gamesListContent).GetComponent<Button>();
 
         TextMeshProUGUI[] texts = newButton.GetComponentsInChildren<TextMeshProUGUI>();
@@ -107,26 +114,27 @@ public class FirebaseLobby : MonoBehaviour
 
     public void JoinGame(GameData game)
     {
-
+        string jsonString;
         if (!ActiveUser.instance.currentUser.activeGames.Contains(game.gameID))
         {
-            Debug.Log("Adding game to users list");
-
             AddPlayerToGame(game, Players.Player2);
+
+            Debug.Log("Adding game to users list");
             ActiveUser.instance.currentUser.activeGames.Add(game.gameID);
-            string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
+            jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
             StartCoroutine(FirebaseManager.Instance.SaveData("users/" + ActiveUser.instance.userID, jsonString));
         }
 
 
         ActiveGame.instance.gameData = game;
-        Debug.Log(ActiveGame.instance.gameData.players[0].name);
-        Debug.Log(ActiveGame.instance.gameData.players[1].name);
+        jsonString = JsonUtility.ToJson(game);
 
-
+        StartCoroutine(FirebaseManager.Instance.SaveData("games/" + game.gameID,
+                                                         jsonString,
+                                                         MenuManager.instance.GoToGame));
 
         //Kanske gör ActiveGame.instance.SaveGameData();
-        MenuManager.instance.GoToGame();
+        
 
 
     }

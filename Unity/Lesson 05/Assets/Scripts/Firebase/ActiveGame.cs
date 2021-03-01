@@ -20,15 +20,23 @@ public class ActiveGame : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public string GetUserIDFromPlayer(Players player)
+    public string GetUserIDFromPlayer(Players playerToFind)
     {
-        PlayerInfo foundPlayer = gameData.players.Find(x => x.nr == player);
-        if (foundPlayer != null)
+        //PlayerInfo foundPlayer = gameData.players.Find(x => x.nr == player);
+        //if (foundPlayer != null)
+        //{
+        //    return foundPlayer.userID;
+        //}
+
+        foreach (PlayerInfo player in gameData.players)
         {
-            return foundPlayer.userID;
+            if (player.nr == playerToFind)
+            {
+                return player.userID;
+            }
         }
-        else
-            return "PlayerNotFound";
+
+        return "PlayerNotFound";
 
     }
 
@@ -54,7 +62,7 @@ public class ActiveGame : MonoBehaviour
     public void SaveGameData()
     {
         string jsonString = JsonUtility.ToJson(gameData);
-        StartCoroutine(FirebaseManager.Instance.SaveData("games/" + gameData.gameID, jsonString));
+        StartCoroutine(FirebaseManager.Instance.SaveData("games/" + gameData.gameID, jsonString, FirebaseLuffarschack.instance.Subscribe));
     }
 
     public int[,] GetVirtualPlayField(int fieldSize)
@@ -109,8 +117,9 @@ public class ActiveGame : MonoBehaviour
             gameData.winner = gameData.players[1];
 
         }
-
         SaveGameData();
+        //ActiveUser.instance.RemoveGameFromList(gameData.gameID);
+
     }
 
 

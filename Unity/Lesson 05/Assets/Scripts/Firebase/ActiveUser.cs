@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using System;
 using UnityEngine;
 
 public class ActiveUser : MonoBehaviour
@@ -49,6 +50,18 @@ public class ActiveUser : MonoBehaviour
 
     }
 
-    
+    public void RemoveGameFromList(string gameID)
+    {
+        Debug.Log("Check GameID to Remove");
+        if (currentUser.activeGames.Exists(e => e == gameID))
+        {
+            Debug.Log("Removing gameID");
 
+            currentUser.activeGames.Remove(gameID);
+        }
+
+        string jsonString = JsonUtility.ToJson(currentUser);
+        StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID, jsonString));
+
+    }
 }

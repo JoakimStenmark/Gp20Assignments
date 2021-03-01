@@ -5,25 +5,49 @@ using UnityEngine;
 
 public class FirebaseLuffarschack : MonoBehaviour
 {
-
+    public static FirebaseLuffarschack instance;
     string valuePath;
-    
-    
+    public bool subscribed;
 
+    private void Awake()
+    {
+        subscribed = false;
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+            Destroy(gameObject);
+    }
     //The thing we want to listen to, when it changes, HandleValueChanged will run.
     public void Subscribe()
     {
+        if (subscribed)
+        {
+            return;
+        }
         valuePath = "games/" + ActiveGame.instance.gameData.gameID;
         Debug.Log("subscribing to value: " + valuePath);
         
         FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged += HandleValueChanged;
+        subscribed = true;
     }
-    public void Subscribe(string path)
+
+    public void Unsubscribe()
     {
-        Debug.Log("subscribing to value: " + path);
-        valuePath = path;
-        FirebaseDatabase.DefaultInstance.GetReference(path).ValueChanged += HandleValueChanged;
+        if (!subscribed)
+        {
+            return;
+        }
+        valuePath = "games/" + ActiveGame.instance.gameData.gameID;
+        Debug.Log("Unsubscribing to value: " + valuePath);
+
+        FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
+        subscribed = false;
+
     }
+
 
     void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
@@ -40,8 +64,8 @@ public class FirebaseLuffarschack : MonoBehaviour
         LuffarSchackGameManager.instance.UpdateGame(updatedGame);
     }
 
-    private void OnDisable()
-    {       
-        FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
-    }
+    //private void OnDestroy()
+    //{       
+    //    FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
+    //}
 }
