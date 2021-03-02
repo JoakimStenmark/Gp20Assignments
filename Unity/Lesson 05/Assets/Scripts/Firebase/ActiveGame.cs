@@ -59,10 +59,20 @@ public class ActiveGame : MonoBehaviour
         }
     }
 
-    public void SaveGameData()
+    public void SaveGameData(bool subscribe)
     {
         string jsonString = JsonUtility.ToJson(gameData);
-        StartCoroutine(FirebaseManager.Instance.SaveData("games/" + gameData.gameID, jsonString, FirebaseLuffarschack.instance.Subscribe));
+        if (subscribe)
+        {
+            StartCoroutine(FirebaseManager.Instance.SaveData("games/" + gameData.gameID, jsonString, FirebaseListener.instance.Subscribe));
+
+        }
+        else
+        {
+            StartCoroutine(FirebaseManager.Instance.SaveData("games/" + gameData.gameID, jsonString));
+
+        }
+
     }
 
     public int[,] GetVirtualPlayField(int fieldSize)
@@ -117,8 +127,8 @@ public class ActiveGame : MonoBehaviour
             gameData.winner = gameData.players[1];
 
         }
-        SaveGameData();
-        //ActiveUser.instance.RemoveGameFromList(gameData.gameID);
+        SaveGameData(false);
+
 
     }
 

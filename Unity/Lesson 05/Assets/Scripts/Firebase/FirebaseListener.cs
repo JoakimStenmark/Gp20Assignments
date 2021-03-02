@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FirebaseLuffarschack : MonoBehaviour
+public class FirebaseListener : MonoBehaviour
 {
-    public static FirebaseLuffarschack instance;
+    public static FirebaseListener instance;
     string valuePath;
     public bool subscribed;
 
@@ -20,6 +20,9 @@ public class FirebaseLuffarschack : MonoBehaviour
         else
             Destroy(gameObject);
     }
+
+
+
     //The thing we want to listen to, when it changes, HandleValueChanged will run.
     public void Subscribe()
     {
@@ -64,8 +67,13 @@ public class FirebaseLuffarschack : MonoBehaviour
         LuffarSchackGameManager.instance.UpdateGame(updatedGame);
     }
 
-    //private void OnDestroy()
-    //{       
-    //    FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
-    //}
+    public void OnDestroy()
+    {
+        if (subscribed)
+        {
+            Debug.Log("Unsubscribing to value: " + valuePath);
+            FirebaseDatabase.DefaultInstance.GetReference(valuePath).ValueChanged -= HandleValueChanged;
+
+        }
+    }
 }

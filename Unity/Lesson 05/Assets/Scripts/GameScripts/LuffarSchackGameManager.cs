@@ -48,7 +48,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         }
         else
         {
-            GetComponent<FirebaseLuffarschack>().Subscribe();
+            GetComponent<FirebaseListener>().Subscribe();
             //ResumeGame();
         }
 
@@ -74,9 +74,9 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         ActiveGame.instance.SetBoardPositions(virtualPlayingField);
 
-        ActiveGame.instance.SaveGameData();
+        ActiveGame.instance.SaveGameData(true);
 
-        GetComponent<FirebaseLuffarschack>().Subscribe();
+        
 
     }
 
@@ -102,15 +102,17 @@ public class LuffarSchackGameManager : MonoBehaviour
     {
         Debug.Log("Updating from Online Data");      
 
-        if (newData.winner.nr != 0)
-        {
-            hasWon = true;
-            PlayerHasWon(newData.winner.nr);
-
-        }
         ActiveGame.instance.gameData = newData;
         virtualPlayingField = ActiveGame.instance.GetVirtualPlayField(fieldSize);
         PlayFieldManager.instance.UpdatePlayfield(virtualPlayingField, Player1TileSprite, Player2TileSprite);
+        if (newData.winner.nr != 0)
+        {
+            hasWon = true;
+            UiManager.instance.ShowVictoryPanel();
+            FirebaseListener.instance.Unsubscribe();
+            ActiveUser.instance.RemoveGameFromList(ActiveGame.instance.gameData.gameID);
+
+        }
         SetPlayerOrder();
 
     }
@@ -126,6 +128,8 @@ public class LuffarSchackGameManager : MonoBehaviour
         CheckPlayerControl();
 
         SetCurrentTurnVisuals();
+
+
     }
 
     public void SetPlayerOrder(GameData newData)
@@ -150,7 +154,7 @@ public class LuffarSchackGameManager : MonoBehaviour
         }
 
         ActiveGame.instance.gameData.currentTurn = currentPlayer;
-        ActiveGame.instance.SaveGameData();
+        ActiveGame.instance.SaveGameData(true);
         CheckPlayerControl();
 
         SetCurrentTurnVisuals();
@@ -334,18 +338,21 @@ public class LuffarSchackGameManager : MonoBehaviour
 
         return false;
     }
+    
     private void PlayerHasWon(Players winner)
     {
         BoardGameInputController.OnBoardClick -= TileClick;
         UiManager.instance.ShowVictoryPanel();
+        FirebaseListener.instance.Unsubscribe();
+        ActiveUser.instance.RemoveGameFromList(ActiveGame.instance.gameData.gameID);
         if (ActiveGame.instance.GetUserIDFromPlayer(winner) == ActiveUser.instance.userID)
         {
             ActiveUser.instance.AddVictory();
             ActiveGame.instance.SetWinner();
             
+
             
         }
-        ActiveUser.instance.RemoveGameFromList(ActiveGame.instance.gameData.gameID);
 
     }
     private void OnDestroy()

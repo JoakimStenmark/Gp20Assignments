@@ -73,7 +73,10 @@ public class FirebaseLogin : MonoBehaviour
 		yield return new WaitUntil(() => loginTask.IsCompleted);
 
 		if (loginTask.Exception != null)
+        {
 			Debug.LogWarning(loginTask.Exception);
+			statusText.text = loginTask.Exception.InnerExceptions[0].InnerException.Message;
+        }
 		else
         {
 			Debug.Log("login completed");

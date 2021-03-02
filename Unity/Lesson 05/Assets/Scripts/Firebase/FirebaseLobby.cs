@@ -12,6 +12,8 @@ public class FirebaseLobby : MonoBehaviour
 {
 
     public InputField inputGameName;
+    public InputField inputUserName;
+
     public TextMeshProUGUI statusText;
 
     public GameObject buttonPrefab;
@@ -19,15 +21,17 @@ public class FirebaseLobby : MonoBehaviour
 
     string userID;
 
-    public void SaveName(string userName)
+    public void SaveName()
     {
         userID = ActiveUser.instance.userID;
 
-        ActiveUser.instance.currentUser.name = userName;
+        ActiveUser.instance.currentUser.name = inputUserName.text;
         string jsonString = JsonUtility.ToJson(ActiveUser.instance.currentUser);
         StartCoroutine(FirebaseManager.Instance.SaveData("users/" + userID,
                                                          jsonString,
                                                          MenuManager.instance.UpdateUserName));
+
+        MenuManager.instance.OpenGameSelection();
 
     }
 
@@ -38,14 +42,19 @@ public class FirebaseLobby : MonoBehaviour
         if (inputGameName.text == "")
         {
             Debug.Log("Need name For game");
+            statusText.text = "Need name For game";
+
             return;
         }
 
         if (ActiveUser.instance.currentUser.activeGames.Count > 3)
         {
             Debug.Log("Too many games made for this User, finish up some first");
+            statusText.text = "Too many games made for this User, finish up some first";
+
             return;
         }
+        statusText.text = "Game Created, refresh gamelist to find it";
 
         GameData game = new GameData();
         game.players = new List<PlayerInfo>();
@@ -79,6 +88,8 @@ public class FirebaseLobby : MonoBehaviour
 
     public void RefreshGamesList()
     {
+        statusText.text = "Searching games";
+
         foreach (Transform child in gamesListContent)
         {
             GameObject.Destroy(child.gameObject);
@@ -88,6 +99,8 @@ public class FirebaseLobby : MonoBehaviour
 
     public void AddGameToLobbyList(string jsonstring)
     {
+        statusText.text = "";
+
         GameData game = JsonUtility.FromJson<GameData>(jsonstring);
 
         if (game.players.Count > 1)

@@ -1,5 +1,6 @@
 ﻿using Firebase.Auth;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ActiveUser : MonoBehaviour
@@ -32,13 +33,19 @@ public class ActiveUser : MonoBehaviour
         if (jsonData == "" || jsonData == null)
         {
             currentUser = new UserInfo();
+            currentUser.name = "Make a User name";
+            currentUser.activeGames = new List<String>();
         }
         else
         {
+            Debug.Log("Loaded User info: " + jsonData);
+
             currentUser = JsonUtility.FromJson<UserInfo>(jsonData);
+            MenuManager.instance.OpenGameSelection();
         }
 
         MenuManager.instance.UpdateUserName();
+        
         
     }
 

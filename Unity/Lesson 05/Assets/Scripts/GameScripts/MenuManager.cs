@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
 
     public CanvasGroup signUpGroup;
     public CanvasGroup lobbyPanel;
+    public CanvasGroup gameSelection;
 
     public TextMeshProUGUI nameText;
 
@@ -49,7 +50,7 @@ public class MenuManager : MonoBehaviour
         lobbyPanel.interactable = true;
         lobbyPanel.alpha = lobbyPanel.alpha = 1;
         lobbyPanel.blocksRaycasts = true;
-        UpdateUserName();
+        //UpdateUserName();
     }
     public void CloseLobbyPanel()
     {
@@ -61,6 +62,20 @@ public class MenuManager : MonoBehaviour
     public void GoToGame()
     {
         GetComponent<SceneHandler>().LoadLevel(1);
+    }
+
+    public void OpenGameSelection()
+    {
+        gameSelection.interactable = true;
+        gameSelection.alpha = 1;
+        gameSelection.blocksRaycasts = true;
+
+    }
+    public void CloseGameSelection()
+    {
+        gameSelection.interactable = false;
+        gameSelection.alpha = 0;
+        gameSelection.blocksRaycasts = false;
     }
 
     public void ShowMenuFeedback()
