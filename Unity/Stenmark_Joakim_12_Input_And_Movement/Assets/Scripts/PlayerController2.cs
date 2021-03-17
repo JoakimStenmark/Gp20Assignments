@@ -8,12 +8,14 @@ public class PlayerController2 : MonoBehaviour
     int playerNr;
     [SerializeField]
     private float speed;
+    
 
     Rigidbody2D rb2d;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        //En ändring
     }
 
     void FixedUpdate()
@@ -22,9 +24,15 @@ public class PlayerController2 : MonoBehaviour
 
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);       
+        //Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-        rb2d.AddForce(movement * speed);
-        
+        //rb2d.AddForce(movement * speed);
+        // En massa ändringar
+
+
+
+
+
+
     }
 }
