@@ -27,16 +27,10 @@ public class PlayerController2 : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
 
         //Vector2 movement = new Vector2(moveHorizontal, moveVertical);
-
         //rb2d.AddForce(movement * speed);
+
+        
         // En massa ändringar
-
-
-
-
-
-
-        rb2d.AddForce(movement * speed);
         //En Ändring
     }
 }
