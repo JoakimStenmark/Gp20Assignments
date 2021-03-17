@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController2 : MonoBehaviour
 {
-
+    //En TredjeÄndring
     [SerializeField]
     int playerNr;
     [SerializeField]
