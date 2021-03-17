@@ -32,5 +32,14 @@ public class PlayerController2 : MonoBehaviour
         
         // En massa ändringar
         //En Ändring
+
+
+        //En Sista ändring
     }
+
+    void newFunction()
+    {
+
+    }
+
 }
