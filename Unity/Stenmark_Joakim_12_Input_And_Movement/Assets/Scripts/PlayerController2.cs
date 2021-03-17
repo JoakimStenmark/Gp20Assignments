@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController2 : MonoBehaviour
 {
+
     [SerializeField]
     int playerNr;
     [SerializeField]
@@ -14,6 +15,7 @@ public class PlayerController2 : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        //En Till Ändring
     }
 
     void FixedUpdate()
